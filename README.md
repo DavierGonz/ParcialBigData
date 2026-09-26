@@ -1,6 +1,6 @@
 # US Accidents: infraestructura geoespacial
 
-Fase 1: arquitectura e infraestructura local en Windows, con contenedores Linux. La API implementa únicamente `GET /health`. No hay descarga de Kaggle, ingesta, agregaciones, consultas geoespaciales ni despliegue automático activado. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). La fase se revisa en `feat/phase-1-infrastructure`; su integración a `main` requiere aprobación del equipo.
+Estado de desarrollo: infraestructura de fase 1 integrada en `main` y trabajo local de fase 2 sobre Jenkins e integración continua en `develop/final-delivery`. La API implementa únicamente `GET /health`. No hay descarga de Kaggle, ingesta, agregaciones ni consultas geoespaciales. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). No se publicarán entregas intermedias; el siguiente push y PR serán los de la versión final completa.
 
 Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad completa está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). El estado verificado se registra en [docs/informe-fase1.md](docs/informe-fase1.md).
 
@@ -101,7 +101,7 @@ En otra ventana CMD, `curl.exe --fail http://127.0.0.1:5001/health`. Detener Fla
 
 Las entradas de dependencias son `requirements/*.in`; los `.txt` son los conjuntos resueltos para Python 3.10. Dask y PySpark no se instalan en el entorno local durante esta fase: se ejecutan en sus contenedores. Para actualizar dependencias deliberadamente, usar `pip-tools==7.5.1` dentro de `.venv` o en un contenedor Python temporal, regenerar los `.txt` y repetir las pruebas. El pin de Colorama en desarrollo cubre también Windows. `requirements/local-tooling.txt` registra adicionalmente el entorno local de desarrollo y las herramientas de resolución utilizadas; se puede reproducir con `python -m pip install -r requirements\local-tooling.txt` dentro de `.venv`. No regenerar dependencias automáticamente durante cada arranque.
 
-## Jenkins y futura conexión con GitHub
+## Jenkins local y futura conexión con GitHub
 
 Jenkins conserva el asistente inicial y la autenticación. Para ver la contraseña inicial **solo en su terminal privada**:
 
@@ -111,9 +111,9 @@ docker compose exec -T jenkins cat /var/jenkins_home/secrets/initialAdminPasswor
 
 Abrir http://127.0.0.1:8080, desbloquear Jenkins, usar los plugins ya incluidos y crear su cuenta de administrador. La contraseña inicial desaparece después de completar el asistente; no copiarla al repositorio. El volumen `jenkins_home` conserva usuarios, configuración y futuras credenciales.
 
-La imagen incluye Pipeline, Git y GitHub; sus 61 plugins y dependencias están fijados en `docker/jenkins/plugins.txt`. Tiene un ejecutor con etiqueta `local-docker`, Docker CLI y Compose. El `Jenkinsfile` inicial define checkout, construcción de imagen de pruebas, pytest como barrera obligatoria y construcción de la imagen candidata. **No implementa todavía publicación ni despliegue, y todavía no se ha ejecutado como job Jenkins.** Una salida no cero de pytest aborta la etapa y omite las posteriores, sin `catchError`, `|| true` ni despliegue en `post`.
+La imagen incluye Pipeline, Git, GitHub y JUnit; sus 72 plugins y dependencias están fijados en `docker/jenkins/plugins.txt`. Tiene un ejecutor con etiqueta `local-docker`, Docker CLI y Compose. El Jenkinsfile de fase 2 realiza checkout, construcción, pytest obligatorio, integración de los motores, candidata aislada y despliegue local de la API con recuperación ante fallo. No publica código ni imágenes en servicios remotos. La configuración, comandos y pruebas negativas se explican en [docs/ci-local.md](docs/ci-local.md).
 
-El repositorio ya está creado. Una vez aprobada la fase correspondiente, el asistente configurará un job Pipeline from SCM apuntando a `Jenkinsfile`, las credenciales del repositorio privado y el disparador GitHub. El webhook futuro será `<URL-HTTPS-publica-de-Jenkins>/github-webhook/`: GitHub no puede acceder a `localhost`. La exposición HTTPS autenticada/túnel y validación de eventos quedan pendientes; no se ha abierto ningún puerto público.
+El repositorio ya está creado y el PR #1 está integrado. Jenkins puede ejecutar commits locales sin subirlos a GitHub mediante `scripts/jenkins_local.py`. En la entrega final se configurará el job desde SCM y el disparador GitHub. El webhook futuro será `<URL-HTTPS-publica-de-Jenkins>/github-webhook/`: GitHub no puede acceder a `localhost`. La exposición HTTPS autenticada/túnel y validación de eventos quedan pendientes; no se ha abierto ningún puerto público.
 
 Las credenciales Kaggle se registrarán después en Jenkins Credentials (por ejemplo, archivo secreto `kaggle-api-token`), nunca en `.env.example`, código ni imágenes. El futuro job de descarga tendrá salida a Internet y acceso a `dataset_cache`; Dask y MongoDB permanecen en una red interna. Se necesitarán manifiestos de versión/checksum y marcas de procesamiento exitoso para reutilizar la caché de forma correcta: el volumen por sí solo no implementa idempotencia.
 
@@ -134,6 +134,7 @@ ParcialBigData/
   Insumos/                  documento original, intacto y excluido
   .venv/                    entorno local, excluido
   api/                      factoría Flask y entrada WSGI
+  ci/                       candidata, etapas CI y fallos de prueba explícitos
   tests/                    contrato de GET /health
   docker/
     api/ dask/ mongo/ spark/ jenkins/

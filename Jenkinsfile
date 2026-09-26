@@ -23,6 +23,9 @@ pipeline {
                     if (params.SOURCE_MODE != 'LOCAL' && params.FAULT != 'none') {
                         error('Fault injection is restricted to LOCAL validation.')
                     }
+                    if (fileExists('.ci/deployment.pending')) {
+                        error('A prior deployment still requires recovery. Preserve this workspace and resolve it before another build.')
+                    }
                     deleteDir()
                     if (params.SOURCE_MODE == 'LOCAL') {
                         if (!(params.LOCAL_COMMIT ==~ /[0-9a-f]{40}/)) {
@@ -34,6 +37,7 @@ pipeline {
                     } else {
                         checkout scm
                     }
+                    env.CHECKOUT_READY = 'true'
                 }
             }
         }
@@ -60,7 +64,7 @@ pipeline {
     post {
         always {
             script {
-                if (fileExists('ci/pipeline.sh')) {
+                if (env.CHECKOUT_READY == 'true' && fileExists('ci/pipeline.sh')) {
                     sh 'bash ci/pipeline.sh cleanup'
                 }
             }

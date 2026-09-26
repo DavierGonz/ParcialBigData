@@ -168,6 +168,8 @@ def collect(client, number, verify=False):
     info = client.get(f'job/{JOB}/{number}/api/json?tree=number,building,result,url,artifacts[fileName,relativePath]')
     print(json.dumps(info, indent=2))
     if info['building']:
+        if verify:
+            raise RuntimeError('Build is still running; verification cannot pass yet.')
         return
     directory = REPORTS / f'build-{number}'
     directory.mkdir(exist_ok=True)
@@ -196,6 +198,17 @@ def collect(client, number, verify=False):
     after = api_state()
     expected = 'SUCCESS' if fault == 'none' else 'FAILURE'
     assert info['result'] == expected, f"Expected {expected}; inspect {directory / 'console.log'}"
+    assert (directory / 'source-commit.txt').read_text().strip() == record['commit']
+    junit = ET.parse(directory / 'pytest.xml')
+    cases = junit.findall('.//testcase')
+    failed = [case for case in cases if case.find('failure') is not None or case.find('error') is not None]
+    assert cases, 'No test cases were reported'
+    if fault == 'pytest':
+        assert len(failed) == 1 and failed[0].get('name') == 'test_expected_failure_for_pipeline_gate'
+    else:
+        assert not failed, 'Pytest failed before the intended validation point'
+    if fault in ('candidate-smoke', 'post-deploy'):
+        assert 'HTTP Error 404' in log, 'The expected HTTP failure did not execute'
     if fault in ('pytest', 'candidate-smoke'):
         assert after == record['before'], 'A rejected candidate changed the deployed API'
         assert not (directory / 'deployment.txt').exists()
