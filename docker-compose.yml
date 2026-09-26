@@ -1,0 +1,192 @@
+name: ${COMPOSE_PROJECT_NAME:-parcialbigdata}
+
+x-common: &common
+  restart: unless-stopped
+  init: true
+  logging:
+    driver: json-file
+    options: {max-size: '10m', max-file: '3'}
+
+x-mongo-app: &mongo-app
+  MONGO_DATABASE: ${MONGO_DATABASE:-us_accidents}
+  MONGO_APP_USERNAME: ${MONGO_APP_USERNAME:-accidents_app}
+  MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Run scripts/init_env.py first}
+
+x-dask: &dask
+  <<: *common
+  image: parcialbigdata-dask:phase1
+  build: {context: ., dockerfile: docker/dask/Dockerfile}
+  networks: [backend]
+  environment:
+    <<: *mongo-app
+    DASK_DISTRIBUTED__WORKER__MEMORY__TARGET: '0.60'
+    DASK_DISTRIBUTED__WORKER__MEMORY__SPILL: '0.70'
+    DASK_DISTRIBUTED__WORKER__MEMORY__PAUSE: '0.80'
+    DASK_DISTRIBUTED__WORKER__MEMORY__TERMINATE: '0.95'
+
+x-spark: &spark
+  <<: *common
+  image: parcialbigdata-spark:phase1
+  build: {context: ., dockerfile: docker/spark/Dockerfile}
+  networks: [backend]
+  environment: *mongo-app
+  entrypoint: [/opt/spark/bin/spark-class]
+
+services:
+  mongodb:
+    <<: *common
+    image: parcialbigdata-mongo:phase1
+    build: {context: ., dockerfile: docker/mongo/Dockerfile}
+    command: [mongod, --wiredTigerCacheSizeGB, '0.25', --bind_ip_all]
+    environment:
+      <<: *mongo-app
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:?Run scripts/init_env.py first}
+    networks: [backend]
+    volumes: [mongo_data:/data/db, mongo_config:/data/configdb]
+    mem_limit: 768m
+    cpus: 1.0
+    healthcheck:
+      test: [CMD, mongosh, --quiet, --eval, 'const c=new Mongo("mongodb://127.0.0.1:27017"); const a=c.getDB("admin"); a.auth(process.env.MONGO_INITDB_ROOT_USERNAME,process.env.MONGO_INITDB_ROOT_PASSWORD); if(a.runCommand({ping:1}).ok!==1) quit(1);']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  spark-master:
+    <<: *spark
+    networks:
+      backend: {aliases: [spark-master-internal]}
+      frontend: {}
+    command: [org.apache.spark.deploy.master.Master, --host, spark-master-internal, --port, '7077', --webui-port, '8080']
+    ports: ['127.0.0.1:${SPARK_UI_PORT:-8081}:8080']
+    volumes: [dataset_cache:/data, spark_master_scratch:/scratch]
+    mem_limit: 1024m
+    cpus: 1.0
+    depends_on:
+      mongodb: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python3, /opt/check_spark.py, master]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  spark-worker:
+    <<: *spark
+    command: [org.apache.spark.deploy.worker.Worker, --host, spark-worker, --cores, '1', --memory, 1g, --webui-port, '8080', spark://spark-master-internal:7077]
+    volumes: [spark_worker_scratch:/scratch]
+    mem_limit: 1536m
+    cpus: 1.0
+    depends_on:
+      spark-master: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python3, /opt/check_spark.py, worker]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  dask-scheduler:
+    <<: *dask
+    networks: [backend, frontend]
+    command: [dask, scheduler, --host, '0.0.0.0', --port, '8786', --dashboard-address, ':8787']
+    ports: ['127.0.0.1:${DASK_UI_PORT:-8787}:8787']
+    mem_limit: 384m
+    cpus: 0.5
+    healthcheck:
+      test: [CMD, python, /opt/check_dask.py]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  dask-worker-1:
+    <<: *dask
+    command: [dask, worker, tcp://dask-scheduler:8786, --name, worker-1, --nworkers, '1', --nthreads, '1', --memory-limit, 768MiB, --local-directory, /scratch, --no-dashboard]
+    volumes: [dataset_cache:/data, dask_worker_1_scratch:/scratch]
+    mem_limit: 1024m
+    cpus: 1.0
+    depends_on:
+      dask-scheduler: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, /opt/check_dask.py, worker-1]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  dask-worker-2:
+    <<: *dask
+    command: [dask, worker, tcp://dask-scheduler:8786, --name, worker-2, --nworkers, '1', --nthreads, '1', --memory-limit, 768MiB, --local-directory, /scratch, --no-dashboard]
+    volumes: [dataset_cache:/data, dask_worker_2_scratch:/scratch]
+    mem_limit: 1024m
+    cpus: 1.0
+    depends_on:
+      dask-scheduler: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, /opt/check_dask.py, worker-2]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  api:
+    <<: *common
+    image: parcialbigdata-api:phase1
+    build: {context: ., dockerfile: docker/api/Dockerfile, target: runtime}
+    environment: *mongo-app
+    networks: [backend, frontend]
+    ports: ['127.0.0.1:${API_PORT:-5000}:5000']
+    mem_limit: 256m
+    cpus: 0.5
+    depends_on:
+      mongodb: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, -c, 'import urllib.request; r=urllib.request.urlopen("http://127.0.0.1:5000/health",timeout=3); assert r.status==200']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  jenkins:
+    <<: *common
+    image: parcialbigdata-jenkins:phase1
+    build: {context: ., dockerfile: docker/jenkins/Dockerfile}
+    group_add: ['0']
+    environment:
+      JAVA_OPTS: '-Xms128m -Xmx512m -Djava.awt.headless=true'
+    networks: [ci]
+    ports: ['127.0.0.1:${JENKINS_PORT:-8080}:8080']
+    volumes: [jenkins_home:/var/jenkins_home, '/var/run/docker.sock:/var/run/docker.sock']
+    mem_limit: 1024m
+    cpus: 1.0
+    healthcheck:
+      test: [CMD-SHELL, 'curl --fail --silent http://127.0.0.1:8080/login >/dev/null']
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+
+  api-tests:
+    profiles: [test]
+    image: parcialbigdata-api-test:phase1
+    build: {context: ., dockerfile: docker/api/Dockerfile, target: test}
+    network_mode: none
+    mem_limit: 256m
+    cpus: 1.0
+
+networks:
+  backend: {internal: true}
+  frontend: {}
+  ci: {}
+
+volumes:
+  mongo_data:
+  mongo_config:
+  dataset_cache:
+  spark_master_scratch:
+  spark_worker_scratch:
+  dask_worker_1_scratch:
+  dask_worker_2_scratch:
+  jenkins_home:

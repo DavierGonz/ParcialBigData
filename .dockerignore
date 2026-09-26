@@ -1,0 +1,11 @@
+.venv
+.env
+.env.*
+.git
+Insumos
+reports
+data
+secrets
+**/__pycache__
+.pytest_cache
+*.log
