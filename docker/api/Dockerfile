@@ -1,0 +1,19 @@
+FROM python:3.10.20-slim-bookworm@sha256:019e31cc1f52e4139d338bca44f27b71339a9da261738fd80fab9cf4595152fc AS base
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /app
+COPY requirements/api.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt && useradd --uid 10001 --create-home app
+COPY api /app/api
+
+FROM base AS test
+COPY requirements/dev.txt /tmp/dev.txt
+RUN pip install --no-cache-dir -r /tmp/dev.txt
+COPY tests /app/tests
+COPY pytest.ini /app/pytest.ini
+USER app
+CMD ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider"]
+
+FROM base AS runtime
+USER app
+EXPOSE 5000
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-", "api.wsgi:app"]
