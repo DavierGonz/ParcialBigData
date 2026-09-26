@@ -17,11 +17,11 @@ rollback() {
         echo 'Restoring the API state captured before this deployment'
         previous=$(cat .ci/previous-image)
         if [[ -n "$previous" ]]; then
-            docker tag "$previous" "$STABLE_IMAGE"
-            API_IMAGE="$STABLE_IMAGE" compose up -d --no-deps --no-build --force-recreate --wait --wait-timeout 90 api
-            compose exec -T api python -c 'import json,urllib.request; r=urllib.request.urlopen("http://127.0.0.1:5000/health",timeout=5); assert r.status==200; assert json.load(r)=={"status":"ok","service":"us-accidents-api"}'
+            docker tag "$previous" "$STABLE_IMAGE" || return 1
+            API_IMAGE="$STABLE_IMAGE" compose up -d --no-deps --no-build --force-recreate --wait --wait-timeout 90 api || return 1
+            compose exec -T api python -c 'import json,urllib.request; r=urllib.request.urlopen("http://127.0.0.1:5000/health",timeout=5); assert r.status==200; assert json.load(r)=={"status":"ok","service":"us-accidents-api"}' || return 1
         else
-            compose rm --stop --force api
+            compose rm --stop --force api || return 1
         fi
         printf 'rollback completed\n' > reports/rollback.txt
         rm -f .ci/deployment.pending
@@ -33,6 +33,7 @@ case "${1:-}" in
         printf '%s\n' "$COMPOSE_ENV_TEXT" > .env.ci
         compose config --quiet
         candidate config --quiet
+        rm -f .ci/tests.passed .ci/infrastructure.passed .ci/candidate.passed
         git rev-parse HEAD > reports/source-commit.txt
         ;;
     build)
@@ -48,21 +49,26 @@ case "${1:-}" in
         docker start --attach "$TEST_CONTAINER" || status=$?
         docker cp "$TEST_CONTAINER:/tmp/pytest.xml" reports/pytest.xml
         docker rm "$TEST_CONTAINER"
+        if [[ "$status" == 0 ]]; then touch .ci/tests.passed; fi
         exit "$status"
         ;;
     infrastructure)
         compose up -d --no-build --wait --wait-timeout 240 mongodb spark-master spark-worker dask-scheduler dask-worker-1 dask-worker-2
         compose exec -T dask-scheduler python - < ci/check_services.py
         compose exec -T spark-master /opt/spark/bin/spark-submit /opt/smoke_spark.py
+        touch .ci/infrastructure.passed
         ;;
     candidate)
         candidate up -d --no-build --wait --wait-timeout 60
         path=health
         if [[ "${CI_FAULT:-none}" == candidate-smoke ]]; then path=forced-missing-endpoint; fi
         candidate exec -T api python /app/scripts/smoke_api.py "http://127.0.0.1:5000/$path" --attempts 1
+        touch .ci/candidate.passed
         ;;
     deploy)
-        [[ -f reports/pytest.xml ]] || { echo 'Missing pytest report'; exit 1; }
+        for gate in tests infrastructure candidate; do
+            [[ -f ".ci/${gate}.passed" ]] || { echo "Missing successful ${gate} gate"; exit 1; }
+        done
         previous_container=$(compose ps -q api)
         previous=''
         if [[ -n "$previous_container" ]]; then previous=$(docker inspect --format '{{.Image}}' "$previous_container"); fi
