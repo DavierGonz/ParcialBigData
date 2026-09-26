@@ -1,0 +1,15 @@
+services:
+  api:
+    image: ${CANDIDATE_IMAGE:?Candidate image is required}
+    init: true
+    mem_limit: 256m
+    cpus: 0.5
+    networks: [candidate]
+    healthcheck:
+      test: [CMD, python, /app/scripts/smoke_api.py, 'http://127.0.0.1:5000/health', --attempts, '1']
+      interval: 5s
+      timeout: 6s
+      retries: 5
+      start_period: 5s
+networks:
+  candidate: {internal: true}

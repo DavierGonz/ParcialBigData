@@ -4,12 +4,14 @@ WORKDIR /app
 COPY requirements/api.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt && useradd --uid 10001 --create-home app
 COPY api /app/api
+COPY scripts/smoke_api.py /app/scripts/smoke_api.py
 
 FROM base AS test
 COPY requirements/dev.txt /tmp/dev.txt
 RUN pip install --no-cache-dir -r /tmp/dev.txt
 COPY tests /app/tests
 COPY pytest.ini /app/pytest.ini
+COPY ci/faults /app/ci/faults
 USER app
 CMD ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider"]
 

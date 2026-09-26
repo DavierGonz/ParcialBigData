@@ -8,6 +8,7 @@ __pycache__/
 .coverage
 htmlcov/
 reports/
+.ci/
 data/
 secrets/
 kaggle.json

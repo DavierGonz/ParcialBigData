@@ -4,6 +4,7 @@
 .git
 Insumos
 reports
+.ci
 data
 secrets
 **/__pycache__
