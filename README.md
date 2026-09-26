@@ -2,7 +2,7 @@
 
 Estado de desarrollo: infraestructura de fase 1 integrada en `main` y trabajo local de fase 2 sobre Jenkins e integración continua en `develop/final-delivery`. La API implementa únicamente `GET /health`. No hay descarga de Kaggle, ingesta, agregaciones ni consultas geoespaciales. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). No se publicarán entregas intermedias; el siguiente push y PR serán los de la versión final completa.
 
-Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad completa está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). El estado verificado se registra en [docs/informe-fase1.md](docs/informe-fase1.md).
+Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). Resultados: [informe de fase 1](docs/informe-fase1.md) e [informe de fase 2](docs/informe-fase2.md).
 
 ## Preparación desde cero en Windows CMD
 
