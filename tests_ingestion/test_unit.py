@@ -103,6 +103,7 @@ def test_transform_order_nulls_and_civil_time():
                        'End_Lat': None, 'Start_Time': '2023-01-01 12:00:00'}, 'fingerprint')
     assert record['location'] == {'type': 'Point', 'coordinates': [-80.0, 35.0]}
     assert record['_id'] == 'A-1' and record['End_Lat'] is None
+    assert next(iter(record)) == '_id'
     assert record['Start_Time'] == '2023-01-01 12:00:00'
 
 

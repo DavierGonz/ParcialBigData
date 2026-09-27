@@ -43,8 +43,9 @@ def selected(identifier, modulus=7):
 
 
 def document(row, fingerprint):
-    record = {key: None if pd.isna(value) else value for key, value in row.items()}
-    record['_id'] = str(record['ID'])
+    # MongoDB stores _id first. Matching that BSON field order avoids no-op replacements.
+    record = {'_id': str(row['ID'])}
+    record.update({key: None if pd.isna(value) else value for key, value in row.items()})
     record['location'] = {'type': 'Point', 'coordinates': [float(record['Start_Lng']), float(record['Start_Lat'])]}
     record['dataset_fingerprint'] = fingerprint
     # Preserve civil timestamps and Timezone from the source; do not invent UTC.

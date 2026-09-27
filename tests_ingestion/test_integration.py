@@ -77,6 +77,7 @@ def test_distributed_csv_mongo_idempotency():
                 second = client.compute(delayed(process_partition)(data, 'test', 1, name), workers=[workers[1]], optimize_graph=False).result()
             assert first['inserted'] == 2 and first['out_of_range'] == 1
             assert second['inserted'] == 0 and second['matched'] == 2
+            assert second['modified'] == 0
             assert first['worker'] != second['worker']
             proof = verify(db, 'test', minimum=2, collection_name=name)
             assert proof['stored'] == 2 and proof['total_collection'] == 2
