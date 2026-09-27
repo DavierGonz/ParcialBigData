@@ -1,0 +1,29 @@
+services:
+  ingestion:
+    image: parcialbigdata-ingestion:phase3
+    build: {context: ., dockerfile: docker/ingestion/Dockerfile, target: runtime}
+    profiles: [ingestion]
+    init: true
+    networks: [backend, ci]
+    environment:
+      MONGO_DATABASE: ${MONGO_DATABASE:-us_accidents}
+      MONGO_APP_USERNAME: ${MONGO_APP_USERNAME:-accidents_app}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Required}
+      KAGGLE_CREDENTIAL: ${KAGGLE_CREDENTIAL:-}
+    volumes: [dataset_cache:/data]
+    mem_limit: 512m
+    cpus: 1.0
+  ingestion-tests:
+    image: parcialbigdata-ingestion-test:phase3
+    build: {context: ., dockerfile: docker/ingestion/Dockerfile, target: test}
+    profiles: [ingestion]
+    init: true
+    networks: [backend]
+    environment:
+      MONGO_DATABASE: ${MONGO_DATABASE:-us_accidents}
+      MONGO_APP_USERNAME: ${MONGO_APP_USERNAME:-accidents_app}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Required}
+      RUN_INGESTION_INTEGRATION: '1'
+    volumes: [dataset_cache:/data]
+    mem_limit: 512m
+    cpus: 1.0
