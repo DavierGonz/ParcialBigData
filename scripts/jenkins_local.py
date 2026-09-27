@@ -18,6 +18,7 @@ REPORTS = ROOT / 'reports/jenkins'
 JOB = 'parcialbigdata-local'
 MARKER = 'Managed by ParcialBigData local CI'
 CREDENTIAL = 'parcialbigdata-compose-env'
+PIPELINE_FILE = 'Jenkinsfile'
 
 
 def command(*args):
@@ -127,7 +128,7 @@ def prepare(client):
         ET.SubElement(element, 'name').text = name
         ET.SubElement(element, 'defaultValue').text = value
     definition = ET.SubElement(root, 'definition', {'class': 'org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition', 'plugin': 'workflow-cps'})
-    ET.SubElement(definition, 'script').text = command('git', 'show', f'{revision}:Jenkinsfile')
+    ET.SubElement(definition, 'script').text = command('git', 'show', f'{revision}:{PIPELINE_FILE}')
     ET.SubElement(definition, 'sandbox').text = 'true'
     ET.SubElement(root, 'disabled').text = 'false'
     endpoint = job_path + 'config.xml' if exists else 'createItem?name=' + JOB
