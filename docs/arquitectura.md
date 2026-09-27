@@ -48,7 +48,7 @@ Las bases se fijan por digest de índice multi-arquitectura y versión legible. 
 
 ## Redes y almacenamiento
 
-`backend` es una red interna de Compose con DNS por servicio: MongoDB, Dask, Spark y API. MongoDB y RPC de los motores no publican puertos. La red `frontend` conecta además API, Spark master y Dask scheduler para que Docker publique sus puertos en loopback; esos tres contenedores tienen salida, mientras MongoDB y los workers permanecen únicamente en `backend`. Esta separación resolvió una restricción observada de publicación en redes exclusivamente internas de Docker Desktop. `ci` permite salida de Jenkins para plugins, GitHub y futuras descargas. Jenkins opera Docker por socket, sin necesitar acceso directo a la base ni conocer las credenciales de la aplicación en esta fase.
+`backend` es una red interna de Compose con DNS por servicio: MongoDB, Dask, Spark y API. MongoDB y RPC de los motores no publican puertos. La red `frontend` conecta además API, Spark master y Dask scheduler para que Docker publique sus puertos en loopback; esos tres contenedores tienen salida, mientras MongoDB y los workers permanecen únicamente en `backend`. Esta separación resolvió una restricción observada de publicación en redes exclusivamente internas de Docker Desktop. `ci` permite salida de Jenkins y del coordinador de ingesta. Jenkins opera Docker por socket y administra credenciales de Compose y Kaggle, que inyecta en sus etapas; no necesita una conexión directa a MongoDB.
 
 | Volumen | Contenido | Persistencia |
 |---|---|---|
@@ -60,9 +60,9 @@ Las bases se fijan por digest de índice multi-arquitectura y versión legible. 
 
 El volumen de dataset es compartido solo donde se necesita; no se hace pasar `.venv`, repositorio ni `Insumos` como volumen de ejecución. La ingesta incorpora bloqueo sobre el volumen, hashes y manifiesto atómico. El contenedor de ingesta usa `backend` para Dask/MongoDB y `ci` para la API de Kaggle, con UID 10001 y grupo 0. Las credenciales no se guardan en la caché.
 
-Las imágenes Dask y Spark inicializan `/data` con grupo 0 y modo `2775`; sus procesos se ejecutan sin ser root y comparten ese grupo. Así, un volumen nuevo es escribible independientemente de qué imagen lo inicialice primero. `verify_infra.py` comprueba el permiso desde ambos workers. El futuro contenedor de descarga deberá respetar este grupo y no montar credenciales dentro de la caché.
+Las imágenes Dask y Spark inicializan `/data` con grupo 0 y modo `2775`; sus procesos se ejecutan sin ser root y comparten ese grupo. Así, un volumen nuevo es escribible independientemente de qué imagen lo inicialice primero. `verify_infra.py` comprueba el permiso desde ambos workers. El coordinador de ingesta respeta ese grupo y recibe la credencial por variable temporal, sin escribirla en la caché.
 
-MongoDB tiene usuario administrador para inicialización y usuario `accidents_app` con `readWrite` únicamente sobre `us_accidents`. Las contraseñas aleatorias se guardan en `.env` ignorado. El campo geoespacial será `location: {type: 'Point', coordinates: [longitud, latitud]}`. El esquema exige dos números; el índice verifica la geometría y límites geográficos. La futura limpieza Dask descartará previamente nulos, infinitos y valores fuera de rango y conservará un identificador determinista del accidente.
+MongoDB tiene usuario administrador para inicialización y usuario `accidents_app` con `readWrite` únicamente sobre `us_accidents`. Las contraseñas aleatorias se guardan en `.env` ignorado. El campo geoespacial es `location: {type: 'Point', coordinates: [longitud, latitud]}`. El esquema exige dos números; el índice verifica la geometría y límites geográficos. La limpieza Dask descarta previamente nulos, infinitos y valores fuera de rango, y conserva ID como clave determinista del accidente.
 
 ## Presupuesto de recursos
 

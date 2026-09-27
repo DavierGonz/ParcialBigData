@@ -2,7 +2,7 @@
 
 Estado de desarrollo: infraestructura de fase 1 integrada en `main`; fases 2 y 3 en `develop/final-delivery`, exclusivamente local. Jenkins dispone de jobs separados para infraestructura/API e ingesta Kaggle → Dask → MongoDB. La API implementa únicamente `GET /health`; las agregaciones Spark y los endpoints geoespaciales de negocio siguen pendientes. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). No se publicarán entregas intermedias; el siguiente push y PR serán los de la versión final completa.
 
-Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). Resultados: [informe de fase 1](docs/informe-fase1.md) e [informe de fase 2](docs/informe-fase2.md).
+Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). Resultados: [informe de fase 1](docs/informe-fase1.md), [informe de fase 2](docs/informe-fase2.md) e [informe de fase 3](docs/informe-fase3.md).
 
 ## Preparación desde cero en Windows CMD
 

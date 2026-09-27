@@ -10,8 +10,8 @@ Fuente leída completa: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, incluidas
 | Credencial Kaggle en Jenkins, nunca en repositorio | Secret text `parcialbigdata-kaggle`, inyección en etapa de ingesta, archivos locales excluidos de Git y de imágenes |
 | MongoDB, GeoJSON, índice 2dsphere | `accidents` contiene 1.103.657 puntos; verificación completa de geometrías, índice y consultas de prueba |
 | Spark master y uno o más workers, conector MongoDB | Master y un worker, conector incorporado en imagen y smoke de lectura sin agregaciones |
-| Dask scheduler y dos o más workers | Scheduler y dos workers; prueba pequeña ejecutada en cada worker |
-| Flask y Jenkinsfile versionable | GET /health, pytest y Jenkinsfile inicial; archivo preparado para que el equipo lo versione |
+| Dask scheduler y dos o más workers | Scheduler y dos workers; ambos ejecutaron tareas reales de la ingesta completa |
+| Flask y Jenkinsfile versionable | GET /health, pytest y Jenkinsfiles de infraestructura/API e ingesta versionados |
 | GitHub, ramas, PR y webhook de integración a principal | PR #1 integrado con autorización. Desarrollo posterior en `develop/final-delivery` local, sin entregas intermedias; webhook reservado para la integración final |
 | Lectura particionada Dask, limpieza de coordenadas, GeoJSON, lotes | Fase 3: 182 particiones, ambos workers, lotes de 500 y upserts; cero coordenadas iniciales inválidas en el CSV real; casos inválidos cubiertos en pruebas |
 | Spark: agregaciones espaciales y temporales, colecciones nuevas | Pendiente; nombres/modelos finales se definirán al desarrollar esa fase |
