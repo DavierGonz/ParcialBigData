@@ -1,32 +1,32 @@
-# Arquitectura de fase 1
+# Arquitectura del proyecto (fases 1–3)
 
 La infraestructura se ejecuta en un único Docker Desktop Linux bajo WSL2. Se mantienen los procesos distribuidos reales exigidos por el profesor, aunque compartan hardware. Los contenedores tienen límites de memoria y CPU; no se presenta esta topología como tolerante a fallos ni como un clúster de varios equipos físicos.
 
 ```mermaid
 flowchart LR
-  subgraph futuro[Flujo pendiente de implementar]
-    GH[GitHub + webhook] --> J[Jenkins]
+  subgraph ingesta[Ingesta local implementada]
+    GH[GitHub + webhook pendientes] -.-> J[Jenkins]
     K[Kaggle API] --> DL[Job de descarga]
     J --> DL
     DL --> V[(Caché persistente)]
   end
-  subgraph actual[Servicios de fase 1]
+  subgraph actual[Servicios persistentes]
     DS[Dask scheduler] --- D1[Worker 1]
     DS --- D2[Worker 2]
-    M[(MongoDB: accidents vacía + 2dsphere)]
+    M[(MongoDB: accidents + 2dsphere)]
     SM[Spark master + driver de verificación] --- SW[Spark worker]
     A[Flask /health]
   end
-  V -. futura ingesta .-> D1
-  V -. futura ingesta .-> D2
-  D1 -. lotes futuros .-> M
-  D2 -. lotes futuros .-> M
+  V --> D1
+  V --> D2
+  D1 -- lotes de 500 y upserts --> M
+  D2 -- lotes de 500 y upserts --> M
   M <-- lectura de prueba por conector --> SM
   SW -. agregados futuros .-> M
   M -. consultas futuras .-> A
 ```
 
-Jenkins ya es un servicio real; se ubica junto al flujo futuro en el diagrama para distinguir las automatizaciones todavía pendientes. La API no consulta MongoDB en su endpoint de salud.
+Jenkins ejecuta dos jobs locales separados: infraestructura/API e ingesta. El segundo descarga Kaggle y coordina Dask en un contenedor efímero; no promueve imágenes de Flask. La API no consulta MongoDB en su endpoint de salud. Las líneas punteadas siguen pendientes.
 
 | Componente | Versión seleccionada | Decisión |
 |---|---|---|
@@ -40,7 +40,7 @@ Jenkins ya es un servicio real; se ubica junto al flujo futuro en el diagrama pa
 | Java MongoDB driver | 5.1.4 | Dentro de rango `[5.1.1,5.1.99)` declarado en POM del conector |
 | Dask / distributed | 2025.5.1 ambos | Compatibles con Python 3.10; misma imagen scheduler/workers |
 | Pandas / PyArrow | Ver requirements/dask.txt | Resolución transitiva fijada, sin instalar motores en Windows |
-| PyMongo | 4.15.1 | Preparado para carga futura desde Dask |
+| PyMongo | 4.15.1 | Carga desde Dask mediante upserts por lotes |
 | Jenkins | 2.568.3, JDK 21 | LTS fijado; asistente y autenticación conservados |
 | Docker CLI en Jenkins | 29.5.3 | Cliente del mismo motor local, Compose incluido |
 
@@ -54,11 +54,11 @@ Las bases se fijan por digest de índice multi-arquitectura y versión legible. 
 |---|---|---|
 | mongo_data / mongo_config | Datos, índices y configuración MongoDB | Conservar |
 | jenkins_home | Usuarios, plugins, jobs y credenciales Jenkins | Conservar |
-| dataset_cache | Futuro ZIP/CSV, manifiestos, muestras reproducibles | Preparado, vacío |
+| dataset_cache | ZIP/CSV completos, manifiesto e informe de ingesta | Persistente; versión 13 |
 | dask_worker_1_scratch / dask_worker_2_scratch | Derrame a disco | Reutilizable; no es fuente de datos |
 | spark_master_scratch / spark_worker_scratch | Archivos temporales Spark | Reutilizable; no es fuente de datos |
 
-El volumen de dataset es compartido solo donde se necesita; no se hace pasar `.venv`, repositorio ni `Insumos` como volumen de ejecución. En el pipeline futuro, la caché necesitará locks y manifiestos atómicos para evitar repetir descargas o aceptar procesos incompletos. Estas reglas aún no están implementadas.
+El volumen de dataset es compartido solo donde se necesita; no se hace pasar `.venv`, repositorio ni `Insumos` como volumen de ejecución. La ingesta incorpora bloqueo sobre el volumen, hashes y manifiesto atómico. El contenedor de ingesta usa `backend` para Dask/MongoDB y `ci` para la API de Kaggle, con UID 10001 y grupo 0. Las credenciales no se guardan en la caché.
 
 Las imágenes Dask y Spark inicializan `/data` con grupo 0 y modo `2775`; sus procesos se ejecutan sin ser root y comparten ese grupo. Así, un volumen nuevo es escribible independientemente de qué imagen lo inicialice primero. `verify_infra.py` comprueba el permiso desde ambos workers. El futuro contenedor de descarga deberá respetar este grupo y no montar credenciales dentro de la caché.
 
@@ -77,13 +77,13 @@ MongoDB tiene usuario administrador para inicialización y usuario `accidents_ap
 | Jenkins | 1024 MiB | 1 |
 | Total servicios permanentes | 7040 MiB = 6,875 GiB | 7 |
 
-Docker Desktop dispone de aproximadamente 7,64 GiB en este equipo. Los límites no son reservas; el consumo real en reposo y las pruebas consta en el informe. La construcción de imágenes, el contenedor de pruebas (256 MiB) y procesos del motor quedan fuera del total. No ejecutar ETL Dask y Spark simultáneamente en fases futuras; medir y ajustar cuando exista carga real. La primera fase no prueba el rendimiento con un millón de filas.
+Docker Desktop dispone de aproximadamente 7,64 GiB en este equipo. Los límites no son reservas; el consumo real consta en los informes. La construcción de imágenes, pruebas API (256 MiB), pruebas de ingesta o coordinador ETL (512 MiB, secuenciales) y procesos del motor quedan fuera del total permanente. No ejecutar ETL Dask y Spark simultáneamente. La Fase 3 mantiene los límites de los ocho servicios y mide una ingesta real de más de un millón de documentos; véase el informe de esa fase.
 
 Dask: un proceso por worker y un hilo; memoria de proceso 768 MiB, derrame desde 70 %, pausa desde 80 % y reinicio desde 95 %. Spark: un core para el worker y el ejecutor, ejecutor 768 MiB, driver 512 MiB y cuatro particiones shuffle. El driver se ejecuta en `spark-master` durante el smoke; al crear jobs nuevos habrá que respetar esa ubicación o redefinir `spark.driver.host` y sus puertos.
 
 ## Integración continua preparada
 
-El arranque CMD exige pytest antes de `compose up`. El Jenkinsfile inicial exige pytest antes de construir la candidata; no tiene una etapa de despliegue activada. En la próxima fase, se deberá añadir entorno candidato, smoke HTTP previo a promoción, etiquetado de imagen inmutable y política de recuperación de un despliegue fallido. Nunca desplegar desde `post { always }` ni ignorar códigos de salida. El pipeline completo todavía no ha sido ejecutado.
+El Jenkinsfile de infraestructura/API exige pytest, integración y smoke de una candidata aislada antes de la promoción, y recupera la imagen anterior si falla el despliegue. Ese flujo local se verificó en la Fase 2. El Jenkinsfile de ingesta exige pruebas unitarias y de integración antes de acceder a Kaggle y escribir datos. Ambos usan commits locales exactos; checkout remoto, webhook y validación conjunta final siguen pendientes. Véanse [CI local](ci-local.md) e [ingesta](ingesta.md).
 
 ## Fuentes técnicas consultadas
 

@@ -5,15 +5,15 @@ Fuente leída completa: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, incluidas
 | Requisito | Tratamiento y límite de fase |
 |---|---|
 | Sistema integrado, contenedores, reproducible en otro equipo | Compose, Dockerfiles, dependencias fijadas, CMD y volúmenes; probar en segundo equipo queda para revisión |
-| Kaggle, georreferenciación, al menos 1 GB o 1 millón de registros | US Accidents confirmado; descarga completa por API queda pendiente, sin descarga en fase 1 |
-| Muestra de al menos un millón si hacen falta recursos | Decisión de diseño: muestreo determinista por identificador/semilla y manifiesto, por implementar; no tomar simplemente el primer millón |
-| Credencial Kaggle en Jenkins, nunca en repositorio | Jenkins preparado; credencial y job aún no configurados |
-| MongoDB, GeoJSON, índice 2dsphere | Colección vacía `accidents`, validación de Point y coordenadas numéricas, índice real; sin registros del dataset |
+| Kaggle, georreferenciación, al menos 1 GB o 1 millón de registros | Fase 3: API descargó ZIP completo de 684.855.912 bytes, CSV de 3.058.183.727 bytes y 7.728.394 registros |
+| Muestra de al menos un millón si hacen falta recursos | BLAKE2b con semilla fija y módulo 7: 1.103.657 documentos limpios únicos, selección independiente del orden |
+| Credencial Kaggle en Jenkins, nunca en repositorio | Secret text `parcialbigdata-kaggle`, inyección en etapa de ingesta, archivos locales excluidos de Git y de imágenes |
+| MongoDB, GeoJSON, índice 2dsphere | `accidents` contiene 1.103.657 puntos; verificación completa de geometrías, índice y consultas de prueba |
 | Spark master y uno o más workers, conector MongoDB | Master y un worker, conector incorporado en imagen y smoke de lectura sin agregaciones |
 | Dask scheduler y dos o más workers | Scheduler y dos workers; prueba pequeña ejecutada en cada worker |
 | Flask y Jenkinsfile versionable | GET /health, pytest y Jenkinsfile inicial; archivo preparado para que el equipo lo versione |
 | GitHub, ramas, PR y webhook de integración a principal | PR #1 integrado con autorización. Desarrollo posterior en `develop/final-delivery` local, sin entregas intermedias; webhook reservado para la integración final |
-| Lectura particionada Dask, limpieza de coordenadas, GeoJSON, lotes | Pendiente; se documentarán reglas y cantidades de descartes con los datos reales |
+| Lectura particionada Dask, limpieza de coordenadas, GeoJSON, lotes | Fase 3: 182 particiones, ambos workers, lotes de 500 y upserts; cero coordenadas iniciales inválidas en el CSV real; casos inválidos cubiertos en pruebas |
 | Spark: agregaciones espaciales y temporales, colecciones nuevas | Pendiente; nombres/modelos finales se definirán al desarrollar esa fase |
 | Consultas parametrizadas $near, $geoWithin y $geoNear | Pendiente explícito; el índice preparado no equivale a implementar consultas |
 | API: radio, polígono GeoJSON, resultados Spark | Pendiente; no se presentan endpoints ficticios |
