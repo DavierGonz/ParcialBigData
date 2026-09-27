@@ -1,6 +1,6 @@
 # US Accidents: infraestructura geoespacial
 
-Estado de desarrollo: infraestructura de fase 1 integrada en `main` y trabajo local de fase 2 sobre Jenkins e integración continua en `develop/final-delivery`. La API implementa únicamente `GET /health`. No hay descarga de Kaggle, ingesta, agregaciones ni consultas geoespaciales. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). No se publicarán entregas intermedias; el siguiente push y PR serán los de la versión final completa.
+Estado de desarrollo: infraestructura de fase 1 integrada en `main`; fases 2 y 3 en `develop/final-delivery`, exclusivamente local. Jenkins dispone de jobs separados para infraestructura/API e ingesta Kaggle → Dask → MongoDB. La API implementa únicamente `GET /health`; las agregaciones Spark y los endpoints geoespaciales de negocio siguen pendientes. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). No se publicarán entregas intermedias; el siguiente push y PR serán los de la versión final completa.
 
 Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). Resultados: [informe de fase 1](docs/informe-fase1.md) e [informe de fase 2](docs/informe-fase2.md).
 
@@ -17,15 +17,19 @@ docker version
 docker compose version
 if not exist .venv\Scripts\python.exe py -3.10 -m venv .venv
 call .venv\Scripts\activate.bat
-python -m pip install -r requirements\dev.txt
+python -m pip install -r requirements\local.txt
 python -m pip check
 python scripts\init_env.py
-python -m pytest -q
+python -m pytest tests tests_ingestion -q
 ```
 
 Si Docker está apagado, abrir Docker Desktop o ejecutar `docker desktop start`. Esperar a que `docker version` muestre también la sección Server. `init_env.py` genera contraseñas aleatorias solo en `.env`, que está excluido del control de versiones; nunca sobrescribe un archivo existente. `.env.example` es una plantilla sin secretos. No copiarla sobre el `.env` generado.
 
 No se instala ningún paquete Python globalmente. Cada Dockerfile instala sus propias dependencias: los contenedores no montan ni reutilizan `.venv`.
+
+## Ingesta de US Accidents
+
+Después de levantar la infraestructura y configurar Jenkins según [ci-local.md](docs/ci-local.md), seguir [la guía de ingesta](docs/ingesta.md). Contiene configuración segura de Kaggle, ejecución del job local, caché, reglas de limpieza, muestra reproducible, pruebas Docker y verificación de MongoDB. El job no despliega Flask. La descarga completa solo se inicia al ejecutar explícitamente ese job; levantar Compose no descarga el dataset.
 
 ## Levantar y verificar
 

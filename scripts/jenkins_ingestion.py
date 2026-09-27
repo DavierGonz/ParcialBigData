@@ -96,6 +96,8 @@ def status(client, number):
     for suite in ('unit', 'integration'):
         cases = ET.parse(directory / f'ingestion-{suite}.xml').findall('.//testcase')
         assert cases and all(case.find('failure') is None and case.find('error') is None for case in cases)
+        if suite == 'integration':
+            assert all(case.find('skipped') is None for case in cases), 'Integration tests were skipped'
     assert (directory / 'api-before.txt').read_text() == (directory / 'api-after.txt').read_text()
     assert local.api_state() == record['before'], 'Flask deployment changed'
     if not record['validate_only']:

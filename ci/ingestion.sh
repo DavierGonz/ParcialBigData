@@ -69,6 +69,8 @@ case "${1:?Stage required}" in
         if [[ -f reports/api-before.txt ]]; then
             api_state > reports/api-after.txt
             cmp reports/api-before.txt reports/api-after.txt
+            api_id=$(docker ps -q --filter label=com.docker.compose.project=parcialbigdata --filter label=com.docker.compose.service=api)
+            docker exec "$api_id" python /app/scripts/smoke_api.py http://127.0.0.1:5000/health > reports/api-health.txt
         fi
         ;;
     *) exit 2 ;;
