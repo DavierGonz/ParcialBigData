@@ -5,12 +5,12 @@ set -Eeuo pipefail
 RUN_ID="pbd-${JOB_BASE_NAME}-${BUILD_NUMBER}"
 [[ "$RUN_ID" =~ ^[a-z0-9][a-z0-9_.-]*$ ]] || { echo 'Invalid CI resource name'; exit 2; }
 export CANDIDATE_IMAGE="parcialbigdata-api:${RUN_ID}"
-TEST_IMAGE="parcialbigdata-api-test:${RUN_ID}"
+export TEST_IMAGE="parcialbigdata-api-test:${RUN_ID}"
 TEST_CONTAINER="${RUN_ID}-tests"
 STABLE_IMAGE='parcialbigdata-api:deployed'
 mkdir -p reports .ci
 compose() { docker compose --project-name parcialbigdata --env-file .env.ci "$@"; }
-candidate() { docker compose --project-name "$RUN_ID" --file ci/compose.candidate.yml "$@"; }
+candidate() { docker compose --project-name "$RUN_ID" --env-file .env.ci --file ci/compose.candidate.yml "$@"; }
 smoke_live() { compose exec -T api python /app/scripts/smoke_api.py "http://127.0.0.1:5000/$1" --attempts 1; }
 rollback() {
     if [[ -f .ci/deployment.pending ]]; then
@@ -33,7 +33,7 @@ case "${1:-}" in
         printf '%s\n' "$COMPOSE_ENV_TEXT" > .env.ci
         compose config --quiet
         candidate config --quiet
-        rm -f .ci/tests.passed .ci/infrastructure.passed .ci/candidate.passed
+        rm -f .ci/tests.passed .ci/infrastructure.passed .ci/analytics.passed .ci/api-integration.passed .ci/candidate.passed
         git rev-parse HEAD > reports/source-commit.txt
         ;;
     build)
@@ -59,14 +59,17 @@ case "${1:-}" in
         touch .ci/infrastructure.passed
         ;;
     candidate)
+        test -f .ci/analytics.passed
+        test -f .ci/api-integration.passed
         candidate up -d --no-build --wait --wait-timeout 60
         path=health
         if [[ "${CI_FAULT:-none}" == candidate-smoke ]]; then path=forced-missing-endpoint; fi
         candidate exec -T api python /app/scripts/smoke_api.py "http://127.0.0.1:5000/$path" --attempts 1
+        candidate exec -T api python /app/scripts/smoke_geo.py http://127.0.0.1:5000
         touch .ci/candidate.passed
         ;;
     deploy)
-        for gate in tests infrastructure candidate; do
+        for gate in tests infrastructure analytics api-integration candidate; do
             [[ -f ".ci/${gate}.passed" ]] || { echo "Missing successful ${gate} gate"; exit 1; }
         done
         previous_container=$(compose ps -q api)
@@ -80,6 +83,7 @@ case "${1:-}" in
         path=health
         if [[ "${CI_FAULT:-none}" == post-deploy ]]; then path=forced-missing-endpoint; fi
         smoke_live "$path"
+        compose exec -T api python /app/scripts/smoke_geo.py http://127.0.0.1:5000
         docker image inspect --format '{{.Id}} revision={{index .Config.Labels "org.opencontainers.image.revision"}}' "$CANDIDATE_IMAGE" > reports/deployment.txt
         rm -f .ci/deployment.pending
         echo 'DEPLOYMENT VERIFIED'
@@ -88,7 +92,28 @@ case "${1:-}" in
         rollback
         candidate down --remove-orphans
         if docker container inspect "$TEST_CONTAINER" >/dev/null 2>&1; then docker rm --force "$TEST_CONTAINER"; fi
+        if docker container inspect "${RUN_ID}-integration" >/dev/null 2>&1; then docker rm --force "${RUN_ID}-integration"; fi
         rm -f .env.ci
         ;;
-    *) echo 'Expected validate|build|test|infrastructure|candidate|deploy|cleanup' >&2; exit 2 ;;
+    analytics)
+        test -f .ci/tests.passed
+        test -f .ci/infrastructure.passed
+        status=0
+        compose exec -T spark-master /opt/spark/bin/spark-submit /opt/processing/run_tests.py > reports/spark-tests.log 2>&1 || status=$?
+        compose cp spark-master:/scratch/spark-tests.xml reports/spark-tests.xml
+        [[ "$status" == 0 ]] || exit "$status"
+        compose exec -T spark-master /opt/spark/bin/spark-submit /opt/processing/job.py > reports/spark-job.log 2>&1
+        compose cp spark-master:/data/analytics-report.json reports/analytics.json
+        touch .ci/analytics.passed
+        ;;
+    api-integration)
+        test -f .ci/analytics.passed
+        status=0
+        compose -f docker-compose.yml -f ci/compose.integration.yml run --no-deps --name "${RUN_ID}-integration" api-integration || status=$?
+        docker cp "${RUN_ID}-integration:/tmp/api-integration.xml" reports/api-integration.xml
+        docker rm "${RUN_ID}-integration"
+        [[ "$status" == 0 ]] || exit "$status"
+        touch .ci/api-integration.passed
+        ;;
+    *) echo 'Unknown pipeline stage' >&2; exit 2 ;;
 esac

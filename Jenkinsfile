@@ -54,6 +54,14 @@ pipeline {
         stage('Infrastructure integration') {
             steps { sh 'bash ci/pipeline.sh infrastructure' }
         }
+        stage('Spark tests and analytics') {
+            steps { sh 'bash ci/pipeline.sh analytics' }
+            post { always { junit testResults: 'reports/spark-tests.xml', allowEmptyResults: false } }
+        }
+        stage('Geospatial API integration') {
+            steps { sh 'bash ci/pipeline.sh api-integration' }
+            post { always { junit testResults: 'reports/api-integration.xml', allowEmptyResults: false } }
+        }
         stage('Candidate HTTP smoke') {
             steps { sh 'bash ci/pipeline.sh candidate' }
         }

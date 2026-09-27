@@ -24,5 +24,5 @@ def test_health_rejects_post(client):
     assert client.post('/health').status_code == 405
 
 
-def test_unimplemented_route_is_not_advertised(client):
-    assert client.get('/accidents/near').status_code == 404
+def test_unknown_route(client):
+    assert client.get('/missing-route').status_code == 404

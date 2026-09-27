@@ -4,7 +4,11 @@ services:
     init: true
     mem_limit: 256m
     cpus: 0.5
-    networks: [candidate]
+    networks: [candidate, backend]
+    environment:
+      MONGO_DATABASE: ${MONGO_DATABASE:-us_accidents}
+      MONGO_APP_USERNAME: ${MONGO_APP_USERNAME:-accidents_app}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Required}
     healthcheck:
       test: [CMD, python, /app/scripts/smoke_api.py, 'http://127.0.0.1:5000/health', --attempts, '1']
       interval: 5s
@@ -13,3 +17,4 @@ services:
       start_period: 5s
 networks:
   candidate: {internal: true}
+  backend: {external: true, name: parcialbigdata_backend}
