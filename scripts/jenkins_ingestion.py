@@ -42,7 +42,7 @@ def run(client, validate_only, force_etl):
     if not validate_only:
         credential(client)
     local.JOB = JOB
-    local.PIPELINE_FILE = 'ci/Jenkinsfile.ingestion'
+    local.PIPELINE_FILE = 'ci/Jenkinsfile.ingestion-local'
     revision = local.prepare(client)
     # Install all parameters before the first build, without running a bootstrap build.
     with client.request(f'job/{JOB}/config.xml') as response:

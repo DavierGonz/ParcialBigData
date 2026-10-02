@@ -7,3 +7,4 @@ Dockerfile text eol=lf
 Jenkinsfile text eol=lf
 *.cmd text eol=crlf
 .githooks/* text eol=lf
+*.pdf binary

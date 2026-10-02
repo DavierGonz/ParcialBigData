@@ -1,5 +1,7 @@
 # Arquitectura del proyecto (fases 1–5)
 
+Estado final: checkout privado, webhook restringido y pruebas de cierre en [ci-final.md](ci-final.md) e [informe-final.md](informe-final.md). Las decisiones por fase siguientes se conservan como contexto.
+
 El benchmark formal de Fase 5 usa `ci/compose.benchmark.yml` con proyecto explícito `pbd-benchmark`, workers efímeros y una proyección persistente de la muestra existente. Suspende temporalmente los cinco servicios de cómputo de esta arquitectura y los restaura al terminar; MongoDB, API y Jenkins continúan activos. Las configuraciones, igualdad de resultados y mediciones están en [informe-fase5.md](informe-fase5.md). No sustituye el flujo productivo MongoDB → Spark ni repite la ingesta.
 
 La infraestructura se ejecuta en un único Docker Desktop Linux bajo WSL2. Se mantienen los procesos distribuidos reales exigidos por el profesor, aunque compartan hardware. Los contenedores tienen límites de memoria y CPU; no se presenta esta topología como tolerante a fallos ni como un clúster de varios equipos físicos.
@@ -7,7 +9,7 @@ La infraestructura se ejecuta en un único Docker Desktop Linux bajo WSL2. Se ma
 ```mermaid
 flowchart LR
   subgraph ingesta[Ingesta local implementada]
-    GH[GitHub + webhook pendientes] -.-> J[Jenkins]
+    GH[GitHub + pasarela HTTPS/HMAC] --> J[Jenkins]
     K[Kaggle API] --> DL[Job de descarga]
     J --> DL
     DL --> V[(Caché persistente)]

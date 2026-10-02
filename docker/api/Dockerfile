@@ -10,6 +10,7 @@ COPY scripts/smoke_geo.py /app/scripts/smoke_geo.py
 
 FROM base AS test
 COPY benchmark /app/benchmark
+COPY webhook /app/webhook
 COPY requirements/dev.txt /tmp/dev.txt
 RUN pip install --no-cache-dir -r /tmp/dev.txt
 COPY tests /app/tests

@@ -18,7 +18,7 @@ REPORTS = ROOT / 'reports/jenkins'
 JOB = 'parcialbigdata-local'
 MARKER = 'Managed by ParcialBigData local CI'
 CREDENTIAL = 'parcialbigdata-compose-env'
-PIPELINE_FILE = 'Jenkinsfile'
+PIPELINE_FILE = 'ci/Jenkinsfile.local'
 
 
 def command(*args):

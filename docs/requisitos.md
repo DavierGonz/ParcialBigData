@@ -1,5 +1,7 @@
 # Trazabilidad de los requisitos del profesor
 
+La tabla de este documento conserva la evolución por fases. El estado de cierre y sus pruebas están en [matriz-final.md](matriz-final.md).
+
 Fuente leída completa: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, incluidas sus ocho secciones y partes OOXML de notas/comentarios. SHA-256 original: `9A2B45C494C0B82AA86466457FC128B2CAFD90FD165C3D1C654518E19561D0C6`. Se extrajo el texto sin modificar ni reexportar el documento. No se generó una copia con formato ni se evaluó su maquetación.
 
 | Requisito | Tratamiento y límite de fase |

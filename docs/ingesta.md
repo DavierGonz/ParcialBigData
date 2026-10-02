@@ -1,5 +1,7 @@
 # Operación de la ingesta (Fase 3)
 
+**Actualización de entrega final:** para operación actual usar `python scripts\jenkins_remote.py run --job parcialbigdata-ingestion` y recoger evidencia con `status --job parcialbigdata-ingestion --number N`. Ese job realiza checkout privado real. Los comandos de bundles siguientes documentan la fase histórica y se conservan como diagnóstico; las reglas de datos/caché siguen vigentes.
+
 El job `parcialbigdata-ingestion-local` usa exclusivamente un commit local exportado por Git bundle. No publica código, no hace checkout remoto y no despliega Flask. Las pruebas unitarias y de integración deben pasar antes de iniciar la descarga. El job de infraestructura/API de la fase 2 se conserva separado.
 
 ## Credenciales y ejecución en Windows CMD

@@ -8,7 +8,6 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
     parameters {
-        string(name: 'LOCAL_COMMIT', defaultValue: '', description: 'Exact committed local bundle; remote checkout deferred.')
         booleanParam(name: 'VALIDATE_ONLY', defaultValue: false, description: 'Run real tests without downloading or ingesting the dataset.')
         booleanParam(name: 'FORCE_ETL', defaultValue: false, description: 'Reprocess cached CSV to verify repeatable upserts.')
     }
@@ -16,14 +15,11 @@ pipeline {
         COMPOSE_ENV_TEXT = credentials('parcialbigdata-compose-env')
     }
     stages {
-        stage('Local source') {
+        stage('GitHub checkout') {
             steps {
                 script {
-                    if (!(params.LOCAL_COMMIT ==~ /[0-9a-f]{40}/)) { error('Exact local commit required') }
                     deleteDir()
-                    withEnv(["EXPECTED_COMMIT=${params.LOCAL_COMMIT}"]) {
-                        sh 'git init -q .; git fetch --no-tags "/var/jenkins_home/local-sources/${EXPECTED_COMMIT}.bundle" HEAD; git checkout --detach FETCH_HEAD; test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"'
-                    }
+                    checkout scm
                 }
                 sh 'bash ci/ingestion.sh configure'
             }

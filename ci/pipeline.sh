@@ -9,6 +9,13 @@ export TEST_IMAGE="parcialbigdata-api-test:${RUN_ID}"
 TEST_CONTAINER="${RUN_ID}-tests"
 STABLE_IMAGE='parcialbigdata-api:deployed'
 mkdir -p reports .ci
+source_revision() {
+    if [[ "${JOB_BASE_NAME}" == parcialbigdata-validation-local && -n "${CI_SOURCE_SNAPSHOT:-}" ]]; then
+        printf '%s' "$CI_SOURCE_SNAPSHOT"
+    else
+        git rev-parse HEAD
+    fi
+}
 compose() { docker compose --project-name parcialbigdata --env-file .env.ci "$@"; }
 candidate() { docker compose --project-name "$RUN_ID" --env-file .env.ci --file ci/compose.candidate.yml "$@"; }
 smoke_live() { compose exec -T api python /app/scripts/smoke_api.py "http://127.0.0.1:5000/$1" --attempts 1; }
@@ -34,11 +41,10 @@ case "${1:-}" in
         compose config --quiet
         candidate config --quiet
         rm -f .ci/tests.passed .ci/infrastructure.passed .ci/analytics.passed .ci/api-integration.passed .ci/candidate.passed
-        git rev-parse HEAD > reports/source-commit.txt
+        source_revision > reports/source-commit.txt
         ;;
     build)
         docker build --target test -f docker/api/Dockerfile -t "$TEST_IMAGE" .
-        docker build --target runtime --label "org.opencontainers.image.revision=$(git rev-parse HEAD)" -f docker/api/Dockerfile -t "$CANDIDATE_IMAGE" .
         compose build mongodb spark-master dask-scheduler
         ;;
     test)
@@ -61,6 +67,7 @@ case "${1:-}" in
     candidate)
         test -f .ci/analytics.passed
         test -f .ci/api-integration.passed
+        docker build --target runtime --label "org.opencontainers.image.revision=$(source_revision)" -f docker/api/Dockerfile -t "$CANDIDATE_IMAGE" .
         candidate up -d --no-build --wait --wait-timeout 60
         path=health
         if [[ "${CI_FAULT:-none}" == candidate-smoke ]]; then path=forced-missing-endpoint; fi

@@ -1,12 +1,12 @@
 # Gestión de Git y GitHub
 
-Para el cierre de Fase 5, la instrucción específica del equipo es crear **un único commit local después de aprobar todas las pruebas**, incluyendo los documentos locales pendientes de cierre. No publicar ni crear PR. La consolidación de los commits no publicados se evaluará antes de la entrega final, sin alterar `main` ni perder evidencias.
+Para la entrega final, el equipo autoriza **un único commit final después de pruebas/auditoría, un único push de develop/final-delivery y el PR final**. El merge a `main` requiere una aprobación posterior al informe de cierre. Se conserva el historial previo porque sus hashes identifican evidencias aprobadas; no se consolida ni reescribe `main`.
 
 Repositorio privado: https://github.com/DavierGonz/ParcialBigData. Se revisaron los repositorios accesibles de la cuenta antes de crearlo; no existía uno correspondiente a este proyecto. La práctica `Tarea3-BigData` es de astronomía y no se modifica.
 
 El PR #1 de `feat/phase-1-infrastructure` fue revisado técnicamente e integrado en `main` tras la autorización explícita del equipo, mediante el merge `2ec352a`. La rama remota se conserva. Los commits registran trabajo real con sus fechas reales; no pretenden reconstruir una cronología de desarrollo anterior.
 
-La estrategia vigente utiliza `develop/final-delivery` exclusivamente de forma local. Conservar los cambios sin nuevos commits salvo cuando sea imprescindible para probar Jenkins. El próximo push y PR se reservan para la entrega completa autorizada. Antes de esa entrega se evaluará consolidar los commits locales no publicados sin alterar main ni perder evidencias; todavía no se ha reescrito el historial. Las revisiones y aprobaciones entre fases siguen siendo necesarias. `.githooks/pre-push` bloquea las publicaciones accidentales; no habilitar `FINAL_DELIVERY_PUSH=1` hasta la entrega final aprobada.
+La estrategia vigente trabaja en `develop/final-delivery`, sin publicaciones intermedias. `.githooks/pre-push` bloquea publicaciones accidentales; `FINAL_DELIVERY_PUSH=1` se habilita solo durante la publicación final autorizada y se retira enseguida. Los ensayos previos usan snapshots de fuentes con hash para evitar commits adicionales; el flujo final usa checkout privado real de GitHub.
 
 La autorización actual permite al asistente gestionar Git, GitHub, commits, push y pull requests. La integración en `main` requiere revisión y aprobación explícita de la fase por el equipo. No hay aprobación implícita por crear o publicar una rama. No se avanza a otras fases, se hace force push, se eliminan ramas remotas ni se sobrescribe trabajo existente sin autorización explícita.
 

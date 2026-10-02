@@ -1,0 +1,6 @@
+# Optional report generation; install only inside .venv.
+reportlab==4.4.4
+pypdf==6.1.1
+PyMuPDF==1.26.4
+pillow==12.3.0
+charset-normalizer==3.5.2

@@ -1,0 +1,30 @@
+services:
+  webhook:
+    image: parcialbigdata-webhook:final
+    build: {context: ., dockerfile: docker/webhook/Dockerfile}
+    restart: unless-stopped
+    init: true
+    networks: [ci]
+    mem_limit: 128m
+    cpus: 0.25
+    volumes: [webhook_state:/state]
+    secrets: [webhook_secret]
+    healthcheck:
+      test: [CMD, python, -c, 'import urllib.request; urllib.request.urlopen("http://127.0.0.1:8090/health",timeout=3)']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+  tunnel:
+    image: cloudflare/cloudflared:2026.9.3@sha256:072c067d25ccbe61d46e18f0d0723255f2bb5304f7317caa95b27031520ff92c
+    restart: unless-stopped
+    command: [tunnel, --no-autoupdate, --url, 'http://webhook:8090', --protocol, http2, --metrics, '0.0.0.0:2000']
+    networks: [ci]
+    mem_limit: 128m
+    cpus: 0.25
+    depends_on:
+      webhook: {condition: service_healthy}
+secrets:
+  webhook_secret:
+    file: ./secrets/webhook-secret.txt
+volumes:
+  webhook_state:

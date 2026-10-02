@@ -1,5 +1,7 @@
 # Jenkins e integración continua local
 
+**Documento histórico de fases 2–5.** La operación vigente usa checkout privado real y webhook HTTPS según [ci-final.md](ci-final.md) y README. Los helpers de bundles siguen disponibles solo para diagnóstico; los Jenkinsfiles históricos están en `ci/Jenkinsfile.local` y `ci/Jenkinsfile.ingestion-local`.
+
 Fase 5: las pruebas de reglas de grilla, igualdad de resultados y lectura de métricas se incorporan al pytest obligatorio de la imagen API. La imagen Spark incorpora el fixture de extremos de coordenadas; la imagen de pruebas de ingesta incorpora el fixture Dask equivalente. Los tests usan pocos datos conocidos. El benchmark formal completo se lanza explícitamente con `scripts/benchmark.py`, fuera del despliegue, para evitar cargas concurrentes que invaliden sus mediciones. No es necesario un nuevo commit por repetición del benchmark.
 
 Actualización de Fase 4: antes de la candidata y del despliegue, el Jenkinsfile exige pruebas Spark con datos conocidos, ejecución o reutilización verificada de los agregados y pruebas MongoDB/API. Publica `spark-tests.xml`, `api-integration.xml`, logs y `analytics.json`. La candidata y la API desplegada pasan además `scripts/smoke_geo.py`. Requiere una ingesta completa previa; no descarga ni ejecuta Dask pesado automáticamente.

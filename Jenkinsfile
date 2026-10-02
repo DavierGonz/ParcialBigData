@@ -8,10 +8,9 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '15'))
     }
     parameters {
-        choice(name: 'SOURCE_MODE', choices: ['SCM', 'LOCAL'], description: 'LOCAL consumes an exported Git commit without publishing to GitHub.')
-        string(name: 'LOCAL_COMMIT', defaultValue: '', description: 'Exact commit exported by scripts/jenkins_local.py.')
-        choice(name: 'FAULT', choices: ['none', 'pytest', 'candidate-smoke', 'post-deploy'], description: 'Controlled failure validation; LOCAL mode only.')
+        choice(name: 'FAULT', choices: ['none', 'pytest', 'candidate-smoke', 'post-deploy'], description: 'Controlled failure validation; Validation jobs only.')
     }
+    triggers { githubPush() }
     environment {
         COMPOSE_ENV_TEXT = credentials('parcialbigdata-compose-env')
         CI_FAULT = "${params.FAULT}"
@@ -20,23 +19,14 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    if (params.SOURCE_MODE != 'LOCAL' && params.FAULT != 'none') {
-                        error('Fault injection is restricted to LOCAL validation.')
+                    if (!env.JOB_BASE_NAME.startsWith('parcialbigdata-validation') && params.FAULT != 'none') {
+                        error('Fault injection is restricted to authenticated validation jobs.')
                     }
                     if (fileExists('.ci/deployment.pending')) {
                         error('A prior deployment still requires recovery. Preserve this workspace and resolve it before another build.')
                     }
                     deleteDir()
-                    if (params.SOURCE_MODE == 'LOCAL') {
-                        if (!(params.LOCAL_COMMIT ==~ /[0-9a-f]{40}/)) {
-                            error('An exact local commit is required.')
-                        }
-                        withEnv(["EXPECTED_COMMIT=${params.LOCAL_COMMIT}"]) {
-                            sh 'git init -q .; git fetch --no-tags "/var/jenkins_home/local-sources/${EXPECTED_COMMIT}.bundle" HEAD; git checkout --detach FETCH_HEAD; test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"'
-                        }
-                    } else {
-                        checkout scm
-                    }
+                    checkout scm
                     env.CHECKOUT_READY = 'true'
                 }
             }
