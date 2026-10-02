@@ -6,6 +6,7 @@
 #
 blinker==1.9.0
     # via flask
+-r mongo.txt
 click==8.5.0
     # via flask
 colorama==0.4.6

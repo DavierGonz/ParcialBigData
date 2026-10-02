@@ -133,7 +133,7 @@ services:
 
   api:
     <<: *common
-    image: parcialbigdata-api:phase1
+    image: ${API_IMAGE:-parcialbigdata-api:deployed}
     build: {context: ., dockerfile: docker/api/Dockerfile, target: runtime}
     environment: *mongo-app
     networks: [backend, frontend]

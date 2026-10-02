@@ -1,0 +1,53 @@
+pipeline {
+    agent { label 'local-docker' }
+    options {
+        skipDefaultCheckout(true)
+        disableConcurrentBuilds()
+        skipStagesAfterUnstable()
+        timeout(time: 180, unit: 'MINUTES')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+    parameters {
+        booleanParam(name: 'VALIDATE_ONLY', defaultValue: false, description: 'Run real tests without downloading or ingesting the dataset.')
+        booleanParam(name: 'FORCE_ETL', defaultValue: false, description: 'Reprocess cached CSV to verify repeatable upserts.')
+    }
+    environment {
+        COMPOSE_ENV_TEXT = credentials('parcialbigdata-compose-env')
+    }
+    stages {
+        stage('GitHub checkout') {
+            steps {
+                script {
+                    deleteDir()
+                    checkout scm
+                }
+                sh 'bash ci/ingestion.sh configure'
+            }
+        }
+        stage('Build ingestion') { steps { sh 'bash ci/ingestion.sh build' } }
+        stage('Unit and HTTP tests') {
+            steps { sh 'bash ci/ingestion.sh unit' }
+            post { always { junit testResults: 'reports/ingestion-unit.xml', allowEmptyResults: false } }
+        }
+        stage('Dask and Mongo integration') {
+            steps { sh 'bash ci/ingestion.sh integration' }
+            post { always { junit testResults: 'reports/ingestion-integration.xml', allowEmptyResults: false } }
+        }
+        stage('Kaggle download and ingestion') {
+            when { expression { !params.VALIDATE_ONLY } }
+            steps {
+                withCredentials([string(credentialsId: 'parcialbigdata-kaggle', variable: 'KAGGLE_CREDENTIAL')]) {
+                    sh 'bash ci/ingestion.sh ingest'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                if (fileExists('ci/ingestion.sh')) { sh 'bash ci/ingestion.sh cleanup' }
+            }
+            archiveArtifacts artifacts: 'reports/*', allowEmptyArchive: true
+        }
+    }
+}

@@ -1,0 +1,13 @@
+services:
+  api-integration:
+    image: ${TEST_IMAGE:-parcialbigdata-api-test:phase1}
+    profiles: [test]
+    init: true
+    mem_limit: 256m
+    cpus: 0.5
+    networks: [backend]
+    environment:
+      MONGO_DATABASE: ${MONGO_DATABASE:-us_accidents}
+      MONGO_APP_USERNAME: ${MONGO_APP_USERNAME:-accidents_app}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Required}
+    command: [python, -m, pytest, tests_api_integration, -q, -p, 'no:cacheprovider', '--junitxml=/tmp/api-integration.xml']

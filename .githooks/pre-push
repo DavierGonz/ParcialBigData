@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+if [ "${FINAL_DELIVERY_PUSH:-0}" != 1 ]; then
+    echo 'Push blocked: no intermediate GitHub deliveries. Enable FINAL_DELIVERY_PUSH=1 only for the approved complete final delivery.' >&2
+    exit 1
+fi

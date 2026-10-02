@@ -1,8 +1,12 @@
 # Gestión de Git y GitHub
 
+Para la entrega final, el equipo autoriza **un único commit final después de pruebas/auditoría, un único push de develop/final-delivery y el PR final**. El merge a `main` requiere una aprobación posterior al informe de cierre. Se conserva el historial previo porque sus hashes identifican evidencias aprobadas; no se consolida ni reescribe `main`.
+
 Repositorio privado: https://github.com/DavierGonz/ParcialBigData. Se revisaron los repositorios accesibles de la cuenta antes de crearlo; no existía uno correspondiente a este proyecto. La práctica `Tarea3-BigData` es de astronomía y no se modifica.
 
-`main` comienza con la configuración de control de versiones. La infraestructura ya implementada se presenta en `feat/phase-1-infrastructure`, mediante commits agrupados por componente y un pull request en borrador. Estos commits registran trabajo existente, con sus fechas reales; no pretenden reconstruir una cronología de desarrollo anterior.
+El PR #1 de `feat/phase-1-infrastructure` fue revisado técnicamente e integrado en `main` tras la autorización explícita del equipo, mediante el merge `2ec352a`. La rama remota se conserva. Los commits registran trabajo real con sus fechas reales; no pretenden reconstruir una cronología de desarrollo anterior.
+
+La estrategia vigente trabaja en `develop/final-delivery`, sin publicaciones intermedias. `.githooks/pre-push` bloquea publicaciones accidentales; `FINAL_DELIVERY_PUSH=1` se habilita solo durante la publicación final autorizada y se retira enseguida. Los ensayos previos usan snapshots de fuentes con hash para evitar commits adicionales; el flujo final usa checkout privado real de GitHub.
 
 La autorización actual permite al asistente gestionar Git, GitHub, commits, push y pull requests. La integración en `main` requiere revisión y aprobación explícita de la fase por el equipo. No hay aprobación implícita por crear o publicar una rama. No se avanza a otras fases, se hace force push, se eliminan ramas remotas ni se sobrescribe trabajo existente sin autorización explícita.
 
@@ -33,6 +37,6 @@ Seleccionar archivos explícitamente para el índice. Mantener `.venv`, `.env`, 
 
 ## Jenkins
 
-El repositorio es el origen previsto del Jenkinsfile. La integración completa, los webhooks y sus pruebas también quedan bajo responsabilidad del asistente, respetando la aprobación entre fases. El pipeline actual es el esqueleto de fase 1; no configura todavía despliegues ni webhooks. Un webhook operativo requerirá una URL HTTPS accesible desde GitHub y credenciales del repositorio privado gestionadas en Jenkins, sin incrustarlas en el código.
+El repositorio es el origen previsto del Jenkinsfile. La Fase 2 usa un job Jenkins real con commits exportados mediante bundles locales, pruebas y despliegue de la API en Docker Desktop. La integración remota y el webhook quedan para la entrega final. Un webhook operativo requerirá una URL HTTPS accesible desde GitHub y credenciales del repositorio privado gestionadas en Jenkins, sin incrustarlas en el código. Véase [ci-local.md](ci-local.md).
 
 Cada cierre de fase informará rama, commits, pull request, sincronización remota y resultado real de la integración continua. La publicación de esta rama no significa que el pipeline completo esté validado.
