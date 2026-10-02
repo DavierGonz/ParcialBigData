@@ -6,6 +6,18 @@ from processing.aggregates import prepare,aggregate
 from processing.storage import database, read_source, write_result, ensure_indexes, verify
 
 
+def test_benchmark_grid_boundary_reference():
+    from benchmark.common import cell, verify as compare
+    points=[(-180.0,-90.0),(180.0,90.0),(-0.01,-0.01),(0.01,0.01),(0.02,0.02),(-118.3,34.0)]
+    spark=SparkSession.builder.getOrCreate()
+    source=spark.createDataFrame([(lon,lat,'2023-01-01 00:00:00') for lon,lat in points],['Start_Lng','Start_Lat','Start_Time'])
+    result=aggregate(prepare(source),'boundary')['grid'].select('cell_x','cell_y','count').collect()
+    expected={}
+    for lon,lat in points:
+        key=cell(lon,lat);expected[key]=expected.get(key,0)+1
+    compare([(r.cell_x,r.cell_y,r['count']) for r in result],[(x,y,n) for (x,y),n in expected.items()])
+
+
 def test_known_data_connector_aggregations_and_repeat():
     db=database()
     prefix='phase4_spark_test_'+uuid.uuid4().hex+'_'

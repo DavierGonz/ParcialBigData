@@ -1,0 +1,75 @@
+name: pbd-benchmark
+
+x-code: &code
+  - ../benchmark:/opt/benchmark:ro
+  - ../processing:/opt/processing:ro
+  - cache:/data
+
+x-worker-dask: &worker-dask
+  image: parcialbigdata-dask:phase1
+  networks: [bench]
+  volumes: *code
+  environment:
+    PYTHONPATH: /opt:/app
+    DASK_DISTRIBUTED__WORKER__MEMORY__TARGET: '0.60'
+    DASK_DISTRIBUTED__WORKER__MEMORY__SPILL: '0.70'
+    DASK_DISTRIBUTED__WORKER__MEMORY__PAUSE: '0.80'
+    DASK_DISTRIBUTED__WORKER__MEMORY__TERMINATE: '0.95'
+  mem_limit: 1536m
+  cpus: 1
+  command: [dask, worker, tcp://bench-dask-scheduler:8786, --nthreads, '1', --memory-limit, 768MiB, --local-directory, /scratch, --no-dashboard]
+
+x-worker-spark: &worker-spark
+  image: parcialbigdata-spark:phase1
+  networks: [bench]
+  volumes: *code
+  mem_limit: 1536m
+  cpus: 1
+  entrypoint: [/opt/spark/bin/spark-class]
+
+services:
+  snapshot:
+    image: parcialbigdata-dask:phase1
+    profiles: [prepare]
+    networks: [production]
+    volumes: *code
+    environment:
+      PYTHONPATH: /opt:/app
+      MONGO_DATABASE: ${MONGO_DATABASE:-us_accidents}
+      MONGO_APP_USERNAME: ${MONGO_APP_USERNAME:-accidents_app}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:?Required}
+    mem_limit: 512m
+    cpus: 1
+    command: [python, -m, benchmark.snapshot]
+  bench-dask-scheduler:
+    image: parcialbigdata-dask:phase1
+    networks: [bench]
+    volumes: *code
+    environment: {PYTHONPATH: '/opt:/app'}
+    mem_limit: 1024m
+    cpus: 1
+    command: [dask, scheduler, --host, '0.0.0.0', --no-dashboard]
+  bench-dask-worker-1:
+    <<: *worker-dask
+  bench-dask-worker-2:
+    <<: *worker-dask
+  bench-spark-master:
+    image: parcialbigdata-spark:phase1
+    networks: [bench]
+    volumes: *code
+    mem_limit: 1024m
+    cpus: 1
+    entrypoint: [/opt/spark/bin/spark-class]
+    command: [org.apache.spark.deploy.master.Master, --host, bench-spark-master, --port, '7077', --webui-port, '8080']
+  bench-spark-worker-1:
+    <<: *worker-spark
+    command: [org.apache.spark.deploy.worker.Worker, --host, bench-spark-worker-1, --cores, '1', --memory, 1g, --webui-port, '8080', spark://bench-spark-master:7077]
+  bench-spark-worker-2:
+    <<: *worker-spark
+    command: [org.apache.spark.deploy.worker.Worker, --host, bench-spark-worker-2, --cores, '1', --memory, 1g, --webui-port, '8080', spark://bench-spark-master:7077]
+
+networks:
+  bench: {internal: true}
+  production: {external: true, name: parcialbigdata_backend}
+volumes:
+  cache: {external: true, name: parcialbigdata_dataset_cache}

@@ -8,6 +8,7 @@ COPY docker/spark/spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 COPY scripts/check_spark.py /opt/check_spark.py
 COPY scripts/smoke_spark.py /opt/smoke_spark.py
 COPY processing /opt/processing
+COPY benchmark /opt/benchmark
 COPY tests_processing /opt/tests_processing
 ENV PYTHONPATH=/opt
 ENV SPARK_DAEMON_MEMORY=256m SPARK_LOCAL_DIRS=/scratch PYSPARK_PYTHON=python3

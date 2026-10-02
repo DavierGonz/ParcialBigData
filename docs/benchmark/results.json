@@ -1,0 +1,2250 @@
+[
+  {
+    "engine": "dask",
+    "workers": 1,
+    "iteration": 0,
+    "warmup": true,
+    "utc": "2026-10-02T03:02:38.167645+00:00",
+    "total_seconds": 3.713902899999084,
+    "exit_code": 0,
+    "counters_before": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "1522746",
+          "user_usec": "1396865",
+          "system_usec": "125880",
+          "nice_usec": "0",
+          "nr_periods": "43",
+          "nr_throttled": "12",
+          "throttled_usec": "890127",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "1503384",
+          "user_usec": "1409166",
+          "system_usec": "94217",
+          "nice_usec": "0",
+          "nr_periods": "42",
+          "nr_throttled": "6",
+          "throttled_usec": "85719",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "3179007",
+          "user_usec": "2942012",
+          "system_usec": "236995",
+          "nice_usec": "0",
+          "nr_periods": "84",
+          "nr_throttled": "17",
+          "throttled_usec": "906371",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "3561244",
+          "user_usec": "3007092",
+          "system_usec": "554152",
+          "nice_usec": "0",
+          "nr_periods": "83",
+          "nr_throttled": "13",
+          "throttled_usec": "105034",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 5,
+    "engine_peak_mib": 383.5,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 182.7,
+      "pbd-benchmark-bench-dask-worker-1-1": 200.8
+    },
+    "cpu_seconds": 3.7141209999999996,
+    "cpu_window_seconds": 4.358598800001346,
+    "cpu_average_cores": 0.8521364710142288,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 2.403569258999937,
+    "application_seconds": 3.2752120089999153,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "dask",
+    "workers": 1,
+    "iteration": 1,
+    "warmup": false,
+    "utc": "2026-10-02T03:02:44.578120+00:00",
+    "total_seconds": 3.0215935000014724,
+    "exit_code": 0,
+    "counters_before": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "3299536",
+          "user_usec": "3055891",
+          "system_usec": "243645",
+          "nice_usec": "0",
+          "nr_periods": "107",
+          "nr_throttled": "17",
+          "throttled_usec": "906371",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "3751271",
+          "user_usec": "3158750",
+          "system_usec": "592521",
+          "nice_usec": "0",
+          "nr_periods": "107",
+          "nr_throttled": "13",
+          "throttled_usec": "105034",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "4680452",
+          "user_usec": "4309968",
+          "system_usec": "370484",
+          "nice_usec": "0",
+          "nr_periods": "141",
+          "nr_throttled": "21",
+          "throttled_usec": "918311",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "5456743",
+          "user_usec": "4502625",
+          "system_usec": "954118",
+          "nice_usec": "0",
+          "nr_periods": "141",
+          "nr_throttled": "16",
+          "throttled_usec": "111727",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 3,
+    "engine_peak_mib": 424.70000000000005,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 184.3,
+      "pbd-benchmark-bench-dask-worker-1-1": 240.4
+    },
+    "cpu_seconds": 3.0863880000000004,
+    "cpu_window_seconds": 3.7370704999993904,
+    "cpu_average_cores": 0.825884339083382,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.7479170699999713,
+    "application_seconds": 2.609972983000034,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "dask",
+    "workers": 1,
+    "iteration": 2,
+    "warmup": false,
+    "utc": "2026-10-02T03:02:49.651026+00:00",
+    "total_seconds": 3.0214143000011973,
+    "exit_code": 0,
+    "counters_before": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "4788963",
+          "user_usec": "4412303",
+          "system_usec": "376660",
+          "nice_usec": "0",
+          "nr_periods": "158",
+          "nr_throttled": "21",
+          "throttled_usec": "918311",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "5612082",
+          "user_usec": "4639974",
+          "system_usec": "972107",
+          "nice_usec": "0",
+          "nr_periods": "157",
+          "nr_throttled": "16",
+          "throttled_usec": "111727",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "6128235",
+          "user_usec": "5648238",
+          "system_usec": "479996",
+          "nice_usec": "0",
+          "nr_periods": "192",
+          "nr_throttled": "26",
+          "throttled_usec": "930262",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "7325750",
+          "user_usec": "6024840",
+          "system_usec": "1300910",
+          "nice_usec": "0",
+          "nr_periods": "191",
+          "nr_throttled": "21",
+          "throttled_usec": "118385",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 3,
+    "engine_peak_mib": 424.9,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 184.5,
+      "pbd-benchmark-bench-dask-worker-1-1": 240.4
+    },
+    "cpu_seconds": 3.05294,
+    "cpu_window_seconds": 3.676683100002265,
+    "cpu_average_cores": 0.8303516830150848,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.7516495730000088,
+    "application_seconds": 2.633089562000009,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "dask",
+    "workers": 1,
+    "iteration": 3,
+    "warmup": false,
+    "utc": "2026-10-02T03:02:55.377683+00:00",
+    "total_seconds": 3.0406180000027234,
+    "exit_code": 0,
+    "counters_before": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "6251393",
+          "user_usec": "5756439",
+          "system_usec": "494953",
+          "nice_usec": "0",
+          "nr_periods": "215",
+          "nr_throttled": "26",
+          "throttled_usec": "930262",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "7521144",
+          "user_usec": "6206888",
+          "system_usec": "1314255",
+          "nice_usec": "0",
+          "nr_periods": "215",
+          "nr_throttled": "21",
+          "throttled_usec": "118385",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "fe7be43fa1839e42a9d6d3516cc4d4f1c3f1411f81c1cf752f39c5e7a7a5b90f": {
+        "cpu.stat": {
+          "usage_usec": "7577823",
+          "user_usec": "6984054",
+          "system_usec": "593769",
+          "nice_usec": "0",
+          "nr_periods": "249",
+          "nr_throttled": "29",
+          "throttled_usec": "938439",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "31d96f985a2e1b4096eb7705000822ced09c0492f9c0530301d52b16088109eb": {
+        "cpu.stat": {
+          "usage_usec": "9269032",
+          "user_usec": "7623472",
+          "system_usec": "1645559",
+          "nice_usec": "0",
+          "nr_periods": "248",
+          "nr_throttled": "25",
+          "throttled_usec": "121821",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 3,
+    "engine_peak_mib": 411.2,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 185.5,
+      "pbd-benchmark-bench-dask-worker-1-1": 225.7
+    },
+    "cpu_seconds": 3.074318,
+    "cpu_window_seconds": 3.6854526000024634,
+    "cpu_average_cores": 0.834176513353596,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.7757205819999626,
+    "application_seconds": 2.604494321999937,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "spark",
+    "workers": 1,
+    "iteration": 0,
+    "warmup": true,
+    "utc": "2026-10-02T03:03:14.699314+00:00",
+    "total_seconds": 16.318089000000327,
+    "exit_code": 0,
+    "counters_before": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "3728906",
+          "user_usec": "3432057",
+          "system_usec": "296848",
+          "nice_usec": "0",
+          "nr_periods": "62",
+          "nr_throttled": "32",
+          "throttled_usec": "4408042",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "2804348",
+          "user_usec": "2646843",
+          "system_usec": "157504",
+          "nice_usec": "0",
+          "nr_periods": "47",
+          "nr_throttled": "26",
+          "throttled_usec": "2309049",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "15070850",
+          "user_usec": "14121794",
+          "system_usec": "949056",
+          "nice_usec": "0",
+          "nr_periods": "215",
+          "nr_throttled": "132",
+          "throttled_usec": "15302018",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "11015168",
+          "user_usec": "10405999",
+          "system_usec": "609169",
+          "nice_usec": "0",
+          "nr_periods": "152",
+          "nr_throttled": "106",
+          "throttled_usec": "10374405",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 17,
+    "engine_peak_mib": 901.2,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 471.1,
+      "pbd-benchmark-bench-spark-worker-1-1": 430.1
+    },
+    "cpu_seconds": 19.552764,
+    "cpu_window_seconds": 16.748253699999623,
+    "cpu_average_cores": 1.1674509086281897,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 10.96115161399996,
+    "application_seconds": 13.89515101699999,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "spark",
+    "workers": 1,
+    "iteration": 1,
+    "warmup": false,
+    "utc": "2026-10-02T03:03:33.884460+00:00",
+    "total_seconds": 16.344172900000558,
+    "exit_code": 0,
+    "counters_before": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "15174547",
+          "user_usec": "14220788",
+          "system_usec": "953758",
+          "nice_usec": "0",
+          "nr_periods": "225",
+          "nr_throttled": "132",
+          "throttled_usec": "15302018",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "11047347",
+          "user_usec": "10434463",
+          "system_usec": "612884",
+          "nice_usec": "0",
+          "nr_periods": "158",
+          "nr_throttled": "106",
+          "throttled_usec": "10374405",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "26518568",
+          "user_usec": "24931534",
+          "system_usec": "1587034",
+          "nice_usec": "0",
+          "nr_periods": "378",
+          "nr_throttled": "234",
+          "throttled_usec": "27000595",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "19665427",
+          "user_usec": "18659307",
+          "system_usec": "1006120",
+          "nice_usec": "0",
+          "nr_periods": "271",
+          "nr_throttled": "188",
+          "throttled_usec": "19246696",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 17,
+    "engine_peak_mib": 915.0,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 475.4,
+      "pbd-benchmark-bench-spark-worker-1-1": 439.6
+    },
+    "cpu_seconds": 19.962101,
+    "cpu_window_seconds": 16.746111500000552,
+    "cpu_average_cores": 1.192043955995357,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 11.409365451999975,
+    "application_seconds": 14.113119481000012,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "spark",
+    "workers": 1,
+    "iteration": 2,
+    "warmup": false,
+    "utc": "2026-10-02T03:03:53.029147+00:00",
+    "total_seconds": 15.825089999998454,
+    "exit_code": 0,
+    "counters_before": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "26619661",
+          "user_usec": "25012528",
+          "system_usec": "1607132",
+          "nice_usec": "0",
+          "nr_periods": "388",
+          "nr_throttled": "234",
+          "throttled_usec": "27000595",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "19701372",
+          "user_usec": "18690946",
+          "system_usec": "1010425",
+          "nice_usec": "0",
+          "nr_periods": "279",
+          "nr_throttled": "188",
+          "throttled_usec": "19246696",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "37833034",
+          "user_usec": "35572031",
+          "system_usec": "2261003",
+          "nice_usec": "0",
+          "nr_periods": "539",
+          "nr_throttled": "337",
+          "throttled_usec": "37834557",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "28371225",
+          "user_usec": "26892120",
+          "system_usec": "1479104",
+          "nice_usec": "0",
+          "nr_periods": "389",
+          "nr_throttled": "272",
+          "throttled_usec": "28912060",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 17,
+    "engine_peak_mib": 908.8,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 469.3,
+      "pbd-benchmark-bench-spark-worker-1-1": 439.5
+    },
+    "cpu_seconds": 19.883226,
+    "cpu_window_seconds": 16.257494700003008,
+    "cpu_average_cores": 1.2230190670150625,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 11.197168072999943,
+    "application_seconds": 13.619853246000048,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "spark",
+    "workers": 1,
+    "iteration": 3,
+    "warmup": false,
+    "utc": "2026-10-02T03:04:11.172827+00:00",
+    "total_seconds": 17.870415800000046,
+    "exit_code": 0,
+    "counters_before": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "37928759",
+          "user_usec": "35642910",
+          "system_usec": "2285848",
+          "nice_usec": "0",
+          "nr_periods": "549",
+          "nr_throttled": "337",
+          "throttled_usec": "37834557",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "28406690",
+          "user_usec": "26927334",
+          "system_usec": "1479355",
+          "nice_usec": "0",
+          "nr_periods": "393",
+          "nr_throttled": "272",
+          "throttled_usec": "28912060",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "9a99086c86603cb28e4d96c524f794892cbe99b2a9510964e3e0d3c8deaad079": {
+        "cpu.stat": {
+          "usage_usec": "50445891",
+          "user_usec": "47442286",
+          "system_usec": "3003604",
+          "nice_usec": "0",
+          "nr_periods": "712",
+          "nr_throttled": "451",
+          "throttled_usec": "50384390",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "7aa9858dfc36af4fedc07832987b1fbffaae4afa118293633b1bf2f76c2af7d1": {
+        "cpu.stat": {
+          "usage_usec": "37187984",
+          "user_usec": "35266382",
+          "system_usec": "1921602",
+          "nice_usec": "0",
+          "nr_periods": "514",
+          "nr_throttled": "357",
+          "throttled_usec": "38160009",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 19,
+    "engine_peak_mib": 919.1,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 482.3,
+      "pbd-benchmark-bench-spark-worker-1-1": 436.8
+    },
+    "cpu_seconds": 21.298426,
+    "cpu_window_seconds": 18.261276200002612,
+    "cpu_average_cores": 1.1663164045455352,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 12.025113013999999,
+    "application_seconds": 14.952392884000005,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 1
+  },
+  {
+    "engine": "spark",
+    "workers": 2,
+    "iteration": 0,
+    "warmup": true,
+    "utc": "2026-10-02T03:04:39.177551+00:00",
+    "total_seconds": 16.881638399998337,
+    "exit_code": 0,
+    "counters_before": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "3187675",
+          "user_usec": "2940051",
+          "system_usec": "247624",
+          "nice_usec": "0",
+          "nr_periods": "41",
+          "nr_throttled": "29",
+          "throttled_usec": "3418415",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "2959190",
+          "user_usec": "2730014",
+          "system_usec": "229176",
+          "nice_usec": "0",
+          "nr_periods": "38",
+          "nr_throttled": "28",
+          "throttled_usec": "2798152",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "2915122",
+          "user_usec": "2749352",
+          "system_usec": "165769",
+          "nice_usec": "0",
+          "nr_periods": "41",
+          "nr_throttled": "26",
+          "throttled_usec": "3007919",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "15211806",
+          "user_usec": "14101567",
+          "system_usec": "1110238",
+          "nice_usec": "0",
+          "nr_periods": "194",
+          "nr_throttled": "138",
+          "throttled_usec": "15951078",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "11295095",
+          "user_usec": "10611876",
+          "system_usec": "683219",
+          "nice_usec": "0",
+          "nr_periods": "145",
+          "nr_throttled": "106",
+          "throttled_usec": "11029056",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "11153829",
+          "user_usec": "10473863",
+          "system_usec": "679966",
+          "nice_usec": "0",
+          "nr_periods": "155",
+          "nr_throttled": "104",
+          "throttled_usec": "12133170",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 18,
+    "engine_peak_mib": 1282.4,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 485.2,
+      "pbd-benchmark-bench-spark-worker-1-1": 413.9,
+      "pbd-benchmark-bench-spark-worker-2-1": 395.0
+    },
+    "cpu_seconds": 28.598743,
+    "cpu_window_seconds": 17.502895000001445,
+    "cpu_average_cores": 1.6339435847611288,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 11.115369360999921,
+    "application_seconds": 14.311432384,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "spark",
+    "workers": 2,
+    "iteration": 1,
+    "warmup": false,
+    "utc": "2026-10-02T03:04:59.245346+00:00",
+    "total_seconds": 16.113621699998475,
+    "exit_code": 0,
+    "counters_before": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "15311596",
+          "user_usec": "14196693",
+          "system_usec": "1114903",
+          "nice_usec": "0",
+          "nr_periods": "202",
+          "nr_throttled": "138",
+          "throttled_usec": "15951078",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "11324396",
+          "user_usec": "10629108",
+          "system_usec": "695287",
+          "nice_usec": "0",
+          "nr_periods": "152",
+          "nr_throttled": "106",
+          "throttled_usec": "11029056",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "11193030",
+          "user_usec": "10504901",
+          "system_usec": "688128",
+          "nice_usec": "0",
+          "nr_periods": "161",
+          "nr_throttled": "104",
+          "throttled_usec": "12133170",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "27030232",
+          "user_usec": "25182967",
+          "system_usec": "1847265",
+          "nice_usec": "0",
+          "nr_periods": "354",
+          "nr_throttled": "243",
+          "throttled_usec": "27577865",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "19268747",
+          "user_usec": "18102894",
+          "system_usec": "1165853",
+          "nice_usec": "0",
+          "nr_periods": "255",
+          "nr_throttled": "182",
+          "throttled_usec": "19375554",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "18934890",
+          "user_usec": "17748223",
+          "system_usec": "1186666",
+          "nice_usec": "0",
+          "nr_periods": "266",
+          "nr_throttled": "177",
+          "throttled_usec": "20248319",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 16,
+    "engine_peak_mib": 1296.8,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 474.5,
+      "pbd-benchmark-bench-spark-worker-1-1": 425.3,
+      "pbd-benchmark-bench-spark-worker-2-1": 397.0
+    },
+    "cpu_seconds": 27.404847,
+    "cpu_window_seconds": 16.76203700000042,
+    "cpu_average_cores": 1.6349353601832113,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 10.663520328999994,
+    "application_seconds": 13.397869853999964,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "spark",
+    "workers": 2,
+    "iteration": 2,
+    "warmup": false,
+    "utc": "2026-10-02T03:05:18.415902+00:00",
+    "total_seconds": 15.043457600000693,
+    "exit_code": 0,
+    "counters_before": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "27134926",
+          "user_usec": "25282713",
+          "system_usec": "1852213",
+          "nice_usec": "0",
+          "nr_periods": "365",
+          "nr_throttled": "243",
+          "throttled_usec": "27577865",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "19300914",
+          "user_usec": "18126530",
+          "system_usec": "1174383",
+          "nice_usec": "0",
+          "nr_periods": "262",
+          "nr_throttled": "182",
+          "throttled_usec": "19375554",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "18964677",
+          "user_usec": "17777642",
+          "system_usec": "1187035",
+          "nice_usec": "0",
+          "nr_periods": "274",
+          "nr_throttled": "177",
+          "throttled_usec": "20248319",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "38426365",
+          "user_usec": "35838679",
+          "system_usec": "2587685",
+          "nice_usec": "0",
+          "nr_periods": "508",
+          "nr_throttled": "347",
+          "throttled_usec": "39433777",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "26582931",
+          "user_usec": "25033865",
+          "system_usec": "1549065",
+          "nice_usec": "0",
+          "nr_periods": "356",
+          "nr_throttled": "251",
+          "throttled_usec": "26671306",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "26412777",
+          "user_usec": "24833926",
+          "system_usec": "1578850",
+          "nice_usec": "0",
+          "nr_periods": "373",
+          "nr_throttled": "245",
+          "throttled_usec": "28102550",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 16,
+    "engine_peak_mib": 1306.5,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 473.6,
+      "pbd-benchmark-bench-spark-worker-1-1": 431.6,
+      "pbd-benchmark-bench-spark-worker-2-1": 401.3
+    },
+    "cpu_seconds": 26.021556,
+    "cpu_window_seconds": 15.640858200000366,
+    "cpu_average_cores": 1.6636910626809078,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 10.06471916800001,
+    "application_seconds": 12.457415061999995,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "spark",
+    "workers": 2,
+    "iteration": 3,
+    "warmup": false,
+    "utc": "2026-10-02T03:05:36.504667+00:00",
+    "total_seconds": 15.152652799999487,
+    "exit_code": 0,
+    "counters_before": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "38525343",
+          "user_usec": "35928735",
+          "system_usec": "2596608",
+          "nice_usec": "0",
+          "nr_periods": "522",
+          "nr_throttled": "347",
+          "throttled_usec": "39433777",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "26616507",
+          "user_usec": "25063342",
+          "system_usec": "1553164",
+          "nice_usec": "0",
+          "nr_periods": "365",
+          "nr_throttled": "251",
+          "throttled_usec": "26671306",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "26447839",
+          "user_usec": "24856570",
+          "system_usec": "1591268",
+          "nice_usec": "0",
+          "nr_periods": "381",
+          "nr_throttled": "245",
+          "throttled_usec": "28102550",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "335e42b90811584ac8f3a8f32829ded8de12d68276fa3cc2bda3e9800dbf14a6": {
+        "cpu.stat": {
+          "usage_usec": "50305613",
+          "user_usec": "46972456",
+          "system_usec": "3333156",
+          "nice_usec": "0",
+          "nr_periods": "666",
+          "nr_throttled": "455",
+          "throttled_usec": "51139037",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "0c5319d467a68a039facb61bed05e7c1f66aaddda26f9dca1b49552a9e452aed": {
+        "cpu.stat": {
+          "usage_usec": "33812344",
+          "user_usec": "31865645",
+          "system_usec": "1946698",
+          "nice_usec": "0",
+          "nr_periods": "463",
+          "nr_throttled": "319",
+          "throttled_usec": "33743933",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "2de1982d9d14507267ee6af1c64a78c05eaacda6d86de7164a642abfe76f4142": {
+        "cpu.stat": {
+          "usage_usec": "33690779",
+          "user_usec": "31654480",
+          "system_usec": "2036299",
+          "nice_usec": "0",
+          "nr_periods": "481",
+          "nr_throttled": "315",
+          "throttled_usec": "36146640",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 16,
+    "engine_peak_mib": 1295.1,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-spark-master-1": 479.2,
+      "pbd-benchmark-bench-spark-worker-1-1": 412.1,
+      "pbd-benchmark-bench-spark-worker-2-1": 403.8
+    },
+    "cpu_seconds": 26.219047,
+    "cpu_window_seconds": 15.739764999998442,
+    "cpu_average_cores": 1.6657838919451844,
+    "oom_kill_delta": 0,
+    "version": "3.5.8",
+    "operation_seconds": 10.027885375999972,
+    "application_seconds": 12.63456346099997,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "dask",
+    "workers": 2,
+    "iteration": 0,
+    "warmup": true,
+    "utc": "2026-10-02T03:05:58.935645+00:00",
+    "total_seconds": 3.0580198999996355,
+    "exit_code": 0,
+    "counters_before": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "1553615",
+          "user_usec": "1423490",
+          "system_usec": "130125",
+          "nice_usec": "0",
+          "nr_periods": "42",
+          "nr_throttled": "10",
+          "throttled_usec": "873186",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "1637199",
+          "user_usec": "1529047",
+          "system_usec": "108152",
+          "nice_usec": "0",
+          "nr_periods": "44",
+          "nr_throttled": "5",
+          "throttled_usec": "205209",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "1663603",
+          "user_usec": "1542172",
+          "system_usec": "121430",
+          "nice_usec": "0",
+          "nr_periods": "46",
+          "nr_throttled": "5",
+          "throttled_usec": "159445",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "3244489",
+          "user_usec": "2980213",
+          "system_usec": "264275",
+          "nice_usec": "0",
+          "nr_periods": "78",
+          "nr_throttled": "12",
+          "throttled_usec": "880505",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "3061475",
+          "user_usec": "2713410",
+          "system_usec": "348065",
+          "nice_usec": "0",
+          "nr_periods": "79",
+          "nr_throttled": "12",
+          "throttled_usec": "247915",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "3136091",
+          "user_usec": "2733924",
+          "system_usec": "402167",
+          "nice_usec": "0",
+          "nr_periods": "81",
+          "nr_throttled": "13",
+          "throttled_usec": "191375",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 4,
+    "engine_peak_mib": 518.2,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 182.8,
+      "pbd-benchmark-bench-dask-worker-1-1": 167.7,
+      "pbd-benchmark-bench-dask-worker-2-1": 167.7
+    },
+    "cpu_seconds": 4.587638,
+    "cpu_window_seconds": 4.02036180000141,
+    "cpu_average_cores": 1.141100783516148,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.7677481169999965,
+    "application_seconds": 2.627805665999972,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "dask",
+    "workers": 2,
+    "iteration": 1,
+    "warmup": false,
+    "utc": "2026-10-02T03:06:05.016366+00:00",
+    "total_seconds": 2.388174399999116,
+    "exit_code": 0,
+    "counters_before": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "3389656",
+          "user_usec": "3114708",
+          "system_usec": "274947",
+          "nice_usec": "0",
+          "nr_periods": "103",
+          "nr_throttled": "12",
+          "throttled_usec": "880505",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "3284072",
+          "user_usec": "2914566",
+          "system_usec": "369505",
+          "nice_usec": "0",
+          "nr_periods": "105",
+          "nr_throttled": "12",
+          "throttled_usec": "247915",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "3358473",
+          "user_usec": "2938149",
+          "system_usec": "420324",
+          "nice_usec": "0",
+          "nr_periods": "107",
+          "nr_throttled": "13",
+          "throttled_usec": "191375",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "4735770",
+          "user_usec": "4371794",
+          "system_usec": "363975",
+          "nice_usec": "0",
+          "nr_periods": "132",
+          "nr_throttled": "15",
+          "throttled_usec": "889637",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "4335101",
+          "user_usec": "3762248",
+          "system_usec": "572852",
+          "nice_usec": "0",
+          "nr_periods": "133",
+          "nr_throttled": "15",
+          "throttled_usec": "254216",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "4436753",
+          "user_usec": "3771444",
+          "system_usec": "665308",
+          "nice_usec": "0",
+          "nr_periods": "135",
+          "nr_throttled": "16",
+          "throttled_usec": "198016",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 3,
+    "engine_peak_mib": 523.0,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 162.8,
+      "pbd-benchmark-bench-dask-worker-1-1": 179.7,
+      "pbd-benchmark-bench-dask-worker-2-1": 180.8
+    },
+    "cpu_seconds": 3.4754229999999997,
+    "cpu_window_seconds": 3.3753217999983463,
+    "cpu_average_cores": 1.0296567870955897,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.0495184589999553,
+    "application_seconds": 1.8863089689999697,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "dask",
+    "workers": 2,
+    "iteration": 2,
+    "warmup": false,
+    "utc": "2026-10-02T03:06:10.027611+00:00",
+    "total_seconds": 2.3840290999978606,
+    "exit_code": 0,
+    "counters_before": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "4869058",
+          "user_usec": "4494198",
+          "system_usec": "374859",
+          "nice_usec": "0",
+          "nr_periods": "154",
+          "nr_throttled": "15",
+          "throttled_usec": "889637",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "4534850",
+          "user_usec": "3943007",
+          "system_usec": "591843",
+          "nice_usec": "0",
+          "nr_periods": "155",
+          "nr_throttled": "15",
+          "throttled_usec": "254216",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "4624210",
+          "user_usec": "3934887",
+          "system_usec": "689323",
+          "nice_usec": "0",
+          "nr_periods": "157",
+          "nr_throttled": "16",
+          "throttled_usec": "198016",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "6246734",
+          "user_usec": "5774430",
+          "system_usec": "472304",
+          "nice_usec": "0",
+          "nr_periods": "182",
+          "nr_throttled": "18",
+          "throttled_usec": "900691",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "5566224",
+          "user_usec": "4753985",
+          "system_usec": "812238",
+          "nice_usec": "0",
+          "nr_periods": "183",
+          "nr_throttled": "19",
+          "throttled_usec": "270910",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "5673534",
+          "user_usec": "4764946",
+          "system_usec": "908587",
+          "nice_usec": "0",
+          "nr_periods": "185",
+          "nr_throttled": "21",
+          "throttled_usec": "209007",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 3,
+    "engine_peak_mib": 547.1,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 168.8,
+      "pbd-benchmark-bench-dask-worker-1-1": 190.9,
+      "pbd-benchmark-bench-dask-worker-2-1": 187.6
+    },
+    "cpu_seconds": 3.4583739999999996,
+    "cpu_window_seconds": 3.3187533000018448,
+    "cpu_average_cores": 1.0420702255868424,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.0323325460000206,
+    "application_seconds": 1.8933883280000146,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  },
+  {
+    "engine": "dask",
+    "workers": 2,
+    "iteration": 3,
+    "warmup": false,
+    "utc": "2026-10-02T03:06:15.420164+00:00",
+    "total_seconds": 2.264137500002107,
+    "exit_code": 0,
+    "counters_before": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "6393366",
+          "user_usec": "5905386",
+          "system_usec": "487980",
+          "nice_usec": "0",
+          "nr_periods": "207",
+          "nr_throttled": "18",
+          "throttled_usec": "900691",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "5790066",
+          "user_usec": "4964639",
+          "system_usec": "825426",
+          "nice_usec": "0",
+          "nr_periods": "209",
+          "nr_throttled": "19",
+          "throttled_usec": "270910",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "5900079",
+          "user_usec": "4974821",
+          "system_usec": "925258",
+          "nice_usec": "0",
+          "nr_periods": "211",
+          "nr_throttled": "21",
+          "throttled_usec": "209007",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "counters_after": {
+      "176ef3481458a4f4e7f3fb4e4e2aec7cd973369ca8a60bfdc5c5c66f58bcd906": {
+        "cpu.stat": {
+          "usage_usec": "7752686",
+          "user_usec": "7169900",
+          "system_usec": "582785",
+          "nice_usec": "0",
+          "nr_periods": "235",
+          "nr_throttled": "22",
+          "throttled_usec": "915218",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "ca96eda495c5ef77d367232b47da5f181677a838121ed3cc84d64247ccc36608": {
+        "cpu.stat": {
+          "usage_usec": "6824760",
+          "user_usec": "5788497",
+          "system_usec": "1036262",
+          "nice_usec": "0",
+          "nr_periods": "236",
+          "nr_throttled": "23",
+          "throttled_usec": "276141",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "14122e170dbf2ec1d1f250486ab25340082281b686c6ff0fc4f436ca53651b20": {
+        "cpu.stat": {
+          "usage_usec": "6929780",
+          "user_usec": "5803898",
+          "system_usec": "1125881",
+          "nice_usec": "0",
+          "nr_periods": "238",
+          "nr_throttled": "24",
+          "throttled_usec": "213626",
+          "nr_bursts": "0",
+          "burst_usec": "0"
+        },
+        "memory.events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      }
+    },
+    "sample_frames": 3,
+    "engine_peak_mib": 575.7,
+    "container_peaks_mib": {
+      "pbd-benchmark-bench-dask-scheduler-1": 186.0,
+      "pbd-benchmark-bench-dask-worker-1-1": 197.2,
+      "pbd-benchmark-bench-dask-worker-2-1": 193.3
+    },
+    "cpu_seconds": 3.4237150000000005,
+    "cpu_window_seconds": 3.185173699999723,
+    "cpu_average_cores": 1.074891143299437,
+    "oom_kill_delta": 0,
+    "version": "2025.5.1",
+    "operation_seconds": 1.0342538529999956,
+    "application_seconds": 1.8875076369999988,
+    "input_partitions": 8,
+    "records_processed": 1103657,
+    "errors": 0,
+    "failed_task_events": 0,
+    "cells": 23599,
+    "sum_counts": 1103657,
+    "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+    "task_retries": 0,
+    "workers_used": 2
+  }
+]

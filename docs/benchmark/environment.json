@@ -1,0 +1,23 @@
+{
+  "platform": "Windows-10-10.0.26200-SP0",
+  "logical_cpus_host": 16,
+  "docker_memory_bytes": 8205778944,
+  "docker_cpus": 16,
+  "docker_server": "29.5.3",
+  "source_sha256": {
+    "scripts\\benchmark.py": "4163ab29adad772b3525036962cf35ee12096cbcf4a61d0b0dcedba3478ab478",
+    "ci\\compose.benchmark.yml": "01bb2d8b4b526727c3af88793183f3e9ee883909a0feb1f9433d0e48253010c3",
+    "benchmark\\__init__.py": "4cbbf7517cbfc1240aa58674223f96e6100c3dc9b9a6a5bed742aeac26184b00",
+    "benchmark\\common.py": "08dd298721b905deabbe9519e4ed89f799c4d5c3b155871cdabc69dc181c521f",
+    "benchmark\\dask_grid.py": "d982189cecd8af8b28e55a7ecda986fb4919f10157c1259359f0bb8cf075119c",
+    "benchmark\\metrics.py": "3c19fb8f99677ab167efac83a6264e85c3074839fffcb391156ee9dcd30ed364",
+    "benchmark\\run.py": "25aafa6ce3402fde09385e7c283178e95c1344d0390fd447881563b1a35d7a3e",
+    "benchmark\\snapshot.py": "3294b0f64a4d3cd1e796b3b39d1fd6869cb9580c63dec7f419870e6833ba2a0b",
+    "processing\\aggregates.py": "ff75c7b64c479e80b82eebde8c1b073f5ca704e2a1631c0d5e4ed09e5a65e6c9"
+  },
+  "source_commit_before_phase_close": "89d65d79b51264bc303481ec2f1aba12e88057d7",
+  "images": {
+    "parcialbigdata-spark:phase1": "sha256:496467752b08c36435654ca8fef569302a204dff1afe1deb0a76f597b9e9d337",
+    "parcialbigdata-dask:phase1": "sha256:fa2bfdfc16c235986c38fd26d15104518367dc7fd25899d9373e3001306f18ec"
+  }
+}

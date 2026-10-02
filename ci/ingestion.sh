@@ -13,7 +13,7 @@ tests() {
     local suite="$1" status=0
     docker rm -f "$NAME-test" >/dev/null 2>&1 || true
     if [[ "$suite" == unit ]]; then
-        dc run --no-deps --name "$NAME-test" -e RUN_INGESTION_INTEGRATION=0 ingestion-tests python -m pytest tests_ingestion -q --junitxml=/tmp/results.xml || status=$?
+        dc run --no-deps --name "$NAME-test" -e RUN_INGESTION_INTEGRATION=0 ingestion-tests python -m pytest tests_ingestion tests_benchmark -q --junitxml=/tmp/results.xml || status=$?
     else
         dc run --no-deps --name "$NAME-test" ingestion-tests python -m pytest tests_ingestion/test_integration.py -q --junitxml=/tmp/results.xml || status=$?
     fi

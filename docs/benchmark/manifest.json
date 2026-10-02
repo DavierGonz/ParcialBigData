@@ -1,0 +1,59 @@
+{
+  "rows": 1103657,
+  "fingerprint": "cfce18489c4df70fe59c6166b61e0aafcebbb098b71b164ca9f9ada842fd22cf",
+  "dataset_version": 13,
+  "source_csv_sha256": "e3e9f962e3e2289db1bdce91623abbcf9ba4d7bfc1adb091c8aeee6c2639d204",
+  "sorted_ids_sha256": "91ca1b4849c4fdec647dca6f92bcf00df46b40ff39136b675de6dbada390f47a",
+  "grid_sha256": "a246a5516a5b27ff6e15d4766e1e9515eff8d4b52db9fc248d2e6871a398b60b",
+  "files": [
+    {
+      "name": "part-00.csv",
+      "rows": 137958,
+      "bytes": 7596856,
+      "sha256": "5e510aec7671d1f75f562d0ee4f7a2052e7a16167f4c4bbc92fe7e8b9d207ffc"
+    },
+    {
+      "name": "part-01.csv",
+      "rows": 137957,
+      "bytes": 7595218,
+      "sha256": "969ac654c733b827e9cdf462006d7a580dc31c0876359a75bfe60fd656d4c189"
+    },
+    {
+      "name": "part-02.csv",
+      "rows": 137957,
+      "bytes": 7597243,
+      "sha256": "94f07d746dd7f23f6417ce393c6798463352f33f06fe2619a1de243b163d7e8c"
+    },
+    {
+      "name": "part-03.csv",
+      "rows": 137957,
+      "bytes": 7597884,
+      "sha256": "b537e6a03700ce325fdda185bd8602e3c0d70390203fddaa6be34a1139352204"
+    },
+    {
+      "name": "part-04.csv",
+      "rows": 137957,
+      "bytes": 7595079,
+      "sha256": "3a147e25c21c6c5e9e2cbb9093bb316887057010993b1501fcadde4d85163811"
+    },
+    {
+      "name": "part-05.csv",
+      "rows": 137957,
+      "bytes": 7599478,
+      "sha256": "918370fc6c1f6678ce5ce688d22f925f97215bd74e838a5467397162b6a2e0e5"
+    },
+    {
+      "name": "part-06.csv",
+      "rows": 137957,
+      "bytes": 7596730,
+      "sha256": "70bbc344688d3d556784c05b3e7b35d1df9256f8eeb62abcfb761e9662e56477"
+    },
+    {
+      "name": "part-07.csv",
+      "rows": 137957,
+      "bytes": 7595773,
+      "sha256": "df9f58e7c06f604ee69bb0b9d92d13a5cadb1bb4249990c1165d6b10f8e99c3b"
+    }
+  ],
+  "preparation_seconds": 7.206814973000007
+}

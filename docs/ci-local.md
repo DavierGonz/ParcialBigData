@@ -1,5 +1,11 @@
 # Jenkins e integración continua local
 
+Fase 5: las pruebas de reglas de grilla, igualdad de resultados y lectura de métricas se incorporan al pytest obligatorio de la imagen API. La imagen Spark incorpora el fixture de extremos de coordenadas; la imagen de pruebas de ingesta incorpora el fixture Dask equivalente. Los tests usan pocos datos conocidos. El benchmark formal completo se lanza explícitamente con `scripts/benchmark.py`, fuera del despliegue, para evitar cargas concurrentes que invaliden sus mediciones. No es necesario un nuevo commit por repetición del benchmark.
+
+Actualización de Fase 4: antes de la candidata y del despliegue, el Jenkinsfile exige pruebas Spark con datos conocidos, ejecución o reutilización verificada de los agregados y pruebas MongoDB/API. Publica `spark-tests.xml`, `api-integration.xml`, logs y `analytics.json`. La candidata y la API desplegada pasan además `scripts/smoke_geo.py`. Requiere una ingesta completa previa; no descarga ni ejecuta Dask pesado automáticamente.
+
+El build #7 falló deliberadamente en pytest sin cambiar Flask; el #8 aprobó 51 pruebas y desplegó el commit `89d65d7`. Véase [informe de Fase 4](informe-fase4.md). Preparar un nuevo bundle requiere árbol limpio porque el helper exporta el commit exacto; los documentos de cierre quedan localmente sin commit según la política vigente. Consultar estado y evidencias de builds existentes no requiere otro commit. El flujo descrito a continuación conserva las instrucciones originales de la Fase 2; las etapas adicionales son obligatorias desde la Fase 4.
+
 La Fase 2 ejecuta el Jenkinsfile real en el contenedor Jenkins. El origen de código es un commit local exportado mediante `git bundle`; no requiere ni realiza push a GitHub. El webhook y la prueba desde el repositorio remoto se reservan para la integración final. No se descarga Kaggle ni se ejecuta ETL en esta fase.
 
 ## Flujo verificado por el job

@@ -1,4 +1,6 @@
-# Arquitectura del proyecto (fases 1–3)
+# Arquitectura del proyecto (fases 1–5)
+
+El benchmark formal de Fase 5 usa `ci/compose.benchmark.yml` con proyecto explícito `pbd-benchmark`, workers efímeros y una proyección persistente de la muestra existente. Suspende temporalmente los cinco servicios de cómputo de esta arquitectura y los restaura al terminar; MongoDB, API y Jenkins continúan activos. Las configuraciones, igualdad de resultados y mediciones están en [informe-fase5.md](informe-fase5.md). No sustituye el flujo productivo MongoDB → Spark ni repite la ingesta.
 
 La infraestructura se ejecuta en un único Docker Desktop Linux bajo WSL2. Se mantienen los procesos distribuidos reales exigidos por el profesor, aunque compartan hardware. Los contenedores tienen límites de memoria y CPU; no se presenta esta topología como tolerante a fallos ni como un clúster de varios equipos físicos.
 
@@ -14,16 +16,16 @@ flowchart LR
     DS[Dask scheduler] --- D1[Worker 1]
     DS --- D2[Worker 2]
     M[(MongoDB: accidents + 2dsphere)]
-    SM[Spark master + driver de verificación] --- SW[Spark worker]
-    A[Flask /health]
+    SM[Spark master + driver analítico] --- SW[Spark worker]
+    A[Flask salud + consultas + analítica]
   end
   V --> D1
   V --> D2
   D1 -- lotes de 500 y upserts --> M
   D2 -- lotes de 500 y upserts --> M
-  M <-- lectura de prueba por conector --> SM
-  SW -. agregados futuros .-> M
-  M -. consultas futuras .-> A
+  M -- lectura particionada por conector --> SM
+  SW -- grilla, tiempo y hotspots --> M
+  M -- near, geoWithin, geoNear y agregados --> A
 ```
 
 Jenkins ejecuta dos jobs locales separados: infraestructura/API e ingesta. El segundo descarga Kaggle y coordina Dask en un contenedor efímero; no promueve imágenes de Flask. La API no consulta MongoDB en su endpoint de salud. Las líneas punteadas siguen pendientes.
@@ -82,6 +84,8 @@ Docker Desktop dispone de aproximadamente 7,64 GiB en este equipo. Los límites 
 Dask: un proceso por worker y un hilo; memoria de proceso 768 MiB, derrame desde 70 %, pausa desde 80 % y reinicio desde 95 %. Spark: un core para el worker y el ejecutor, ejecutor 768 MiB, driver 512 MiB y cuatro particiones shuffle. El driver se ejecuta en `spark-master` durante el smoke; al crear jobs nuevos habrá que respetar esa ubicación o redefinir `spark.driver.host` y sus puertos.
 
 ## Integración continua preparada
+
+En la Fase 4 el driver sigue en `spark-master`: lee ocho particiones por MongoDB Spark Connector, persiste a disco y escribe agregados mediante upserts. Comparte el bloqueo de la ingesta para impedir cargas pesadas simultáneas. Jenkins exige las pruebas Spark, consistencia de agregados y consultas API/MongoDB antes de la candidata y el despliegue. Los límites de memoria permanecen iguales; detalles y mediciones en [API y Spark](api-geoespacial.md) e [informe de Fase 4](informe-fase4.md).
 
 El Jenkinsfile de infraestructura/API exige pytest, integración y smoke de una candidata aislada antes de la promoción, y recupera la imagen anterior si falla el despliegue. Ese flujo local se verificó en la Fase 2. El Jenkinsfile de ingesta exige pruebas unitarias y de integración antes de acceder a Kaggle y escribir datos. Ambos usan commits locales exactos; checkout remoto, webhook y validación conjunta final siguen pendientes. Véanse [CI local](ci-local.md) e [ingesta](ingesta.md).
 

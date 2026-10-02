@@ -1,6 +1,10 @@
 # US Accidents: infraestructura geoespacial
 
-Estado de desarrollo: infraestructura de fase 1 integrada en `main`; fases 2 y 3 en `develop/final-delivery`, exclusivamente local. Jenkins dispone de jobs separados para infraestructura/API e ingesta Kaggle → Dask → MongoDB. La API implementa únicamente `GET /health`; las agregaciones Spark y los endpoints geoespaciales de negocio siguen pendientes. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). No se publicarán entregas intermedias; el siguiente push y PR serán los de la versión final completa.
+Estado de desarrollo: infraestructura de fase 1 integrada en `main`; fases 2–5 en `develop/final-delivery`, exclusivamente local. Ingesta Kaggle → Dask → MongoDB, procesamiento Spark y benchmark implementados sobre 1.103.657 documentos. Flask expone salud, proximidad, polígono y resultados analíticos. Jenkins local verifica y despliega la API. Checkout remoto, webhook, push y PR quedan reservados para la entrega final autorizada. Repositorio privado: [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData).
+
+La [guía de API y Spark](docs/api-geoespacial.md) documenta parámetros, errores, límites y comandos CMD. El [informe de fase 4](docs/informe-fase4.md) contiene resultados reales, pruebas, recursos y pendientes. Después de completar la ingesta, `python scripts\run_spark.py --label spark-review` ejecuta o reutiliza resultados completos de la misma versión y muestra; no descarga ni repite Dask.
+
+El benchmark de Fase 5 compara la grilla de 0,1° con uno y dos workers por motor sobre una copia verificada de la misma muestra. `python scripts\benchmark.py --label revision-fase5 --repeats 3` ejecuta calentamientos y mediciones secuenciales; detiene temporalmente los servicios de cómputo habituales y los restaura al salir. MongoDB, Flask y Jenkins continúan activos. No ejecutar jobs de Jenkins, ingesta u otros procesos pesados durante esa medición. Véase [metodología, resultados y reproducción](docs/informe-fase5.md).
 
 Fuente principal: `Insumos/Trabajo_Big_Data_Geoespacial-1.docx`, leído íntegramente y conservado sin modificaciones. Dataset confirmado: [US Accidents de Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents). La trazabilidad está en [docs/requisitos.md](docs/requisitos.md); las decisiones y fuentes están en [docs/arquitectura.md](docs/arquitectura.md). Resultados: [informe de fase 1](docs/informe-fase1.md), [informe de fase 2](docs/informe-fase2.md) e [informe de fase 3](docs/informe-fase3.md).
 
@@ -90,7 +94,7 @@ docker compose down
 docker compose up -d --wait --wait-timeout 300
 ```
 
-No usar `down -v` ni eliminar los volúmenes: contienen MongoDB, Jenkins, la futura caché del dataset y áreas temporales de los motores. No se ha descargado ningún dataset en esta fase. Mantener `COMPOSE_PROJECT_NAME=parcialbigdata` evita crear otra familia de volúmenes por accidente.
+No usar `down -v` ni eliminar los volúmenes: contienen MongoDB, Jenkins, la caché del dataset y áreas temporales de los motores. Mantener `COMPOSE_PROJECT_NAME=parcialbigdata` evita crear otra familia de volúmenes por accidente.
 
 ## Desarrollo local
 
@@ -119,14 +123,14 @@ La imagen incluye Pipeline, Git, GitHub y JUnit; sus 72 plugins y dependencias e
 
 El repositorio ya está creado y el PR #1 está integrado. Jenkins puede ejecutar commits locales sin subirlos a GitHub mediante `scripts/jenkins_local.py`. En la entrega final se configurará el job desde SCM y el disparador GitHub. El webhook futuro será `<URL-HTTPS-publica-de-Jenkins>/github-webhook/`: GitHub no puede acceder a `localhost`. La exposición HTTPS autenticada/túnel y validación de eventos quedan pendientes; no se ha abierto ningún puerto público.
 
-Las credenciales Kaggle se registrarán después en Jenkins Credentials (por ejemplo, archivo secreto `kaggle-api-token`), nunca en `.env.example`, código ni imágenes. El futuro job de descarga tendrá salida a Internet y acceso a `dataset_cache`; Dask y MongoDB permanecen en una red interna. Se necesitarán manifiestos de versión/checksum y marcas de procesamiento exitoso para reutilizar la caché de forma correcta: el volumen por sí solo no implementa idempotencia.
+Las credenciales Kaggle se gestionan en Jenkins Credentials (`parcialbigdata-kaggle`), nunca en código ni imágenes. El job de ingesta tiene salida a Internet y acceso a `dataset_cache`; utiliza manifiestos de versión, checksum y marcas de ejecución completa para reutilizar la caché. Dask y MongoDB permanecen en la red interna.
 
 Jenkins accede al socket del Docker Desktop local mediante grupo 0, conservando el usuario `jenkins`. Esto da control amplio sobre el motor; ejecutar solo jobs y ramas confiables del equipo. No ejecutar pull requests externos con este socket. Es una decisión para el laboratorio de un solo equipo; un entorno compartido requeriría un agente aislado. Las futuras construcciones usarán contextos Docker, no bind mounts de rutas Windows desde el contenedor Jenkins.
 
 ## Diagnóstico
 
 - Si un puerto está ocupado, cambiar su variable en `.env` y volver a levantar. Consultar `docker compose ps` y `docker compose logs --tail 100 NOMBRE_SERVICIO`.
-- Si faltan recursos, cerrar aplicaciones ajenas al proyecto antes de construir. Los límites suman 6,875 GiB; el consumo en reposo es menor, pero los jobs y las construcciones también necesitan memoria. No se ha validado todavía una carga de un millón de accidentes.
+- Si faltan recursos, cerrar aplicaciones ajenas al proyecto antes de construir. Los límites suman 6,875 GiB; los jobs y las construcciones también necesitan memoria. Se verificaron ingesta y agregaciones de 1.103.657 accidentes; MongoDB llegó a 726 MiB durante Spark. No ejecutar cargas pesadas Dask y Spark simultáneamente.
 - MongoDB inicializa usuarios, validador e índice solamente con el volumen vacío. Cambiar contraseñas en `.env` no modifica los usuarios existentes; hay que rotarlos expresamente mediante MongoDB. Conservar el `.env` local junto con una copia segura de sus datos.
 - Los workers Dask derraman a disco en sus volúmenes `/scratch`. El límite de cada proceso es 768 MiB, dentro de un contenedor de 1 GiB; Spark anuncia 1 GiB al master, con ejecutor de 768 MiB y contenedor de 1,5 GiB.
 - El arranque saludable de Jenkins no implica que su asistente haya sido completado. La conexión real GitHub → Jenkins requiere configuración posterior.
@@ -139,7 +143,13 @@ ParcialBigData/
   .venv/                    entorno local, excluido
   api/                      factoría Flask y entrada WSGI
   ci/                       candidata, etapas CI y fallos de prueba explícitos
-  tests/                    contrato de GET /health
+  tests/                    salud, validación y contrato HTTP
+  processing/               agregaciones Spark y publicación
+  tests_processing/         fixture MongoDB/Spark e idempotencia
+  tests_api_integration/    consultas MongoDB y API real
+  ingestion/                descarga, limpieza Dask y carga
+  tests_ingestion/          pruebas de ingesta
+  examples/                 polígono de consulta
   docker/
     api/ dask/ mongo/ spark/ jenkins/
   requirements/             entradas y dependencias fijadas
@@ -155,4 +165,4 @@ ParcialBigData/
   README.md
 ```
 
-El asistente tiene autorización para gestionar Git y GitHub. Se utilizan `main` y ramas de trabajo, commits que identifican su autoría real y pull requests que no se integran hasta la aprobación de la fase. La [política de Git](docs/git-workflow.md) explica las comprobaciones antes de cada commit y cómo activar el hook después de clonar. No se continuará con la fase siguiente hasta su revisión y aprobación.
+Se trabaja en `develop/final-delivery` sin publicaciones intermedias; solo se crea otro commit si es imprescindible para probar Jenkins. La entrega final y su PR requieren autorización. La [política de Git](docs/git-workflow.md) explica las comprobaciones antes de cada commit y cómo activar el hook después de clonar. No se continuará con la fase siguiente hasta su revisión y aprobación.
