@@ -42,7 +42,9 @@ services:
       <<: *mongo-app
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:?Run scripts/init_env.py first}
-    networks: [backend]
+    # Host access is loopback-only; Windows MongoDB keeps its own port 27017.
+    ports: ['127.0.0.1:27018:27017']
+    networks: [backend, frontend]
     volumes: [mongo_data:/data/db, mongo_config:/data/configdb]
     mem_limit: 768m
     cpus: 1.0

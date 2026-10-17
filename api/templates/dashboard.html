@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explorador geoespacial de la muestra real de US Accidents. Consultas MongoDB y análisis de Spark.">
+  <title>Atlas vial · US Accidents</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='brand.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/leaflet/leaflet.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css', v='2') }}">
+  <script defer src="{{ url_for('static', filename='vendor/leaflet/leaflet.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='dashboard.js', v='2') }}"></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Ir al contenido</a>
+<aside class="sidebar" aria-label="Filtros de búsqueda">
+  <a class="brand" href="/" aria-label="Atlas vial, inicio"><img src="{{ url_for('static', filename='brand.svg') }}" width="38" height="38" alt=""><span>atlas<span class="brand-light">vial</span><small>EXPLORADOR GEOESPACIAL</small></span></a>
+  <div class="project-label"><span class="dot"></span> US Accidents <span class="country">US</span></div>
+  <section class="filters" aria-labelledby="filters-title">
+    <div class="section-heading"><h2 id="filters-title">Define tu búsqueda</h2><span class="tiny-badge">POR RADIO</span></div>
+    <p class="field-help">Haz clic en el mapa o escribe las coordenadas de tu búsqueda.</p>
+    <form id="query-form">
+        <div class="coordinates">
+          <label>Latitud<input id="latitude" name="lat" type="number" min="-90" max="90" step="any" placeholder="Ej. 32.81517" required></label>
+          <label>Longitud<input id="longitude" name="lon" type="number" min="-180" max="180" step="any" placeholder="Ej. -116.914566" required></label>
+        </div>
+        <label class="radius-label" for="radius">Radio de búsqueda <span>metros</span></label>
+        <input id="radius" name="radius_m" type="number" min="1" max="50000" step="1" value="1000" required>
+        <input id="radius-slider" aria-label="Radio de búsqueda en metros" type="range" min="1" max="50000" step="1" value="1000">
+        <div class="range-labels"><span>1 m</span><span>50 km</span></div>
+      <label class="select-label" for="limit">Máximo de resultados</label>
+      <select id="limit"><option value="20">20 accidentes</option><option value="50">50 accidentes</option><option value="100">100 accidentes</option></select>
+      <button id="search-button" type="submit" class="primary-button"><span aria-hidden="true">⌕</span> Buscar accidentes</button>
+    </form>
+    <p id="query-message" class="message" role="status" aria-live="polite">Selecciona un punto para empezar. Solo se consulta al pulsar Buscar accidentes.</p>
+  </section>
+  <div class="sidebar-footer"><span class="status-dot" id="service-dot"></span><span id="service-status">Comprobando servicio…</span><small>Consultas sobre la muestra real de US Accidents</small></div>
+</aside>
+<main id="main" tabindex="-1">
+  <header class="topbar"><div class="breadcrumb">Atlasvial <span>/</span> <strong>Explorador de accidentes</strong></div><span class="header-tag"><span class="dot"></span> Datos reales · uso académico</span></header>
+  <div class="main-content">
+    <section class="intro"><div><div class="eyebrow">EXPLORACIÓN GEOESPACIAL</div><h1>Explora los accidentes de tránsito<span>.</span></h1><p>Elige un punto, ajusta el radio y descubre los accidentes a su alrededor.</p></div><button id="overview-button" class="outline-button">↗ Vista de Estados Unidos</button></section>
+    <section class="explorer" aria-label="Mapa y resultados">
+      <div class="map-panel">
+        <div class="panel-heading"><div><h2>El territorio, en detalle</h2><span id="map-subtitle">Estados Unidos · selecciona el centro de búsqueda</span></div></div>
+        <div class="map-wrap"><div id="map" aria-label="Mapa interactivo de accidentes. Usa los campos de coordenadas como alternativa al clic." tabindex="0"></div><div id="map-hint" class="map-hint">↳ Haz clic para seleccionar el centro de búsqueda</div><div id="tile-message" class="tile-message" hidden>Fondo cartográfico no disponible. El contorno, los puntos y las consultas siguen funcionando.</div></div>
+        <div class="map-footer"><div class="legend"><span class="legend-title">Severidad de la fuente</span><span><i class="severity-1"></i>1</span><span><i class="severity-2"></i>2</span><span><i class="severity-3"></i>3</span><span><i class="severity-4"></i>4</span></div><span class="center-legend"><i></i> Centro de búsqueda</span></div>
+      </div>
+      <aside class="results-panel" aria-label="Resultados de la consulta">
+        <div class="results-summary"><h2>Accidentes encontrados</h2><span id="result-count" aria-label="Cantidad de resultados">—</span></div>
+        <div class="results-heading"><span>Resultados de tu búsqueda</span><button id="fit-results" class="icon-button" title="Encuadrar centro y resultados" aria-label="Encuadrar resultados" disabled>⤢</button></div>
+        <p id="results-note" class="results-note">Los resultados aparecerán aquí al consultar.</p>
+        <div id="results-list" class="results-list" aria-live="polite"><div class="empty-state"><span>⌖</span><h3>Elige dónde explorar</h3><p>Consulta un punto del mapa y descubre los accidentes a su alrededor.</p></div></div>
+      </aside>
+    </section>
+    <footer class="page-footer"><span>US Accidents <span class="footer-separator">/</span> Proyecto Big Data Geoespacial</span><span>Hasta 100 accidentes por consulta · distancias en metros</span></footer>
+  </div>
+</main>
+<noscript><div class="noscript">Activa JavaScript para utilizar el mapa. La API sigue disponible en /health y los endpoints geoespaciales.</div></noscript>
+</body>
+</html>

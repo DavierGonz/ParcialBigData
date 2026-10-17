@@ -3,12 +3,14 @@ import argparse
 import json
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
+from smoke_ui import verify as verify_ui
 
 
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('base_url')
     args=parser.parse_args()
+    verify_ui(args.base_url)
     def call(path,body=None):
         data=None if body is None else json.dumps(body).encode()
         request=Request(args.base_url.rstrip('/')+path,data=data,headers={'Content-Type':'application/json'})

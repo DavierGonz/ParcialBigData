@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt && useradd --uid 10001 -
 COPY api /app/api
 COPY scripts/smoke_api.py /app/scripts/smoke_api.py
 COPY scripts/smoke_geo.py /app/scripts/smoke_geo.py
+COPY scripts/smoke_ui.py /app/scripts/smoke_ui.py
 
 FROM base AS test
 COPY benchmark /app/benchmark

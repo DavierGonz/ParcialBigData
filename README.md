@@ -1,5 +1,9 @@
 # US Accidents: procesamiento geoespacial y CI/CD
 
+**Reanudar este equipo tras reiniciar:** abrir Docker Desktop, esperar motor listo y ejecutar `scripts\resume_local.cmd`. Conserva Atlasvial y los datos. Compose principal publica Compass exclusivamente en **127.0.0.1:27018**, también en despliegues Jenkins, sin interferir con MongoDB de Windows. No requiere un override local. [Arranque local y límites del túnel](docs/arranque-local.md).
+
+**Interfaz web Atlas vial:** mapa Leaflet, consulta por punto/radio y tarjetas de accidentes con distancias en **http://127.0.0.1:5000/**. Con la infraestructura existente iniciada, `scripts\start_ui.cmd` construye, prueba y activa únicamente Flask. [Guía de uso, pruebas y demostración](docs/interfaz-web.md). Esta ampliación permanece local sin commit/push hasta autorización.
+
 **Kaggle API → caché → Dask → MongoDB → Spark → MongoDB → Flask**. GitHub envía eventos HTTPS a una pasarela HMAC que reenvía solo el webhook a Jenkins; la administración permanece en localhost.
 
 Resultados reales: 7.728.394 filas originales, muestra de **1.103.657 accidentes**, **23.599 celdas** y **2.660 grupos temporales**. Repositorio privado [DavierGonz/ParcialBigData](https://github.com/DavierGonz/ParcialBigData). Entrega en `develop/final-delivery`; merge a `main` sujeto a revisión.

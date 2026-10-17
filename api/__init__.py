@@ -1,6 +1,6 @@
 """Bounded geospatial queries and published Spark results."""
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from pymongo.errors import ExecutionTimeout, PyMongoError
 from werkzeug.exceptions import HTTPException, BadRequest
 
@@ -13,6 +13,19 @@ def create_app(test_config=None):
     if test_config:
         app.config.update(test_config)
     repository.configure(app)
+
+    @app.get('/')
+    def dashboard():
+        response = app.make_response(render_template('dashboard.html'))
+        response.headers['Cache-Control'] = 'no-cache'
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+        response.headers['Content-Security-Policy'] = (
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data: https://tile.openstreetmap.org; connect-src 'self'; "
+            "object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+        )
+        return response
 
     def result(rows, limit, **meta):
         return jsonify(items=rows[:limit], count=min(len(rows),limit), has_more=len(rows)>limit, **meta)
