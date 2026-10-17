@@ -178,4 +178,4 @@ python scripts\build_report.py
 
 Fuentes: guía original (hash en matriz), [Kaggle](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents), informes [1](docs/informe-fase1.md), [2](docs/informe-fase2.md), [3](docs/informe-fase3.md), [4](docs/informe-fase4.md), [5](docs/informe-fase5.md). Sus pendientes son históricos; la matriz final indica estado actual.
 
-Prueba en vivo
+prueba
